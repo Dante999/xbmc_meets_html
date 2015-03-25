@@ -12,12 +12,14 @@ class ConfigFile
         virtual ~ConfigFile();
         int getValue(string strKeyWord, string &strValue);
         int checkIfExists(void);
+        int testConfig(void);
 
     protected:
     private:
         ifstream ifConfigFile;
         int openFile(void);
         int closeFile(void);
+        int iMissingEntry;
 
 
 };

@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1427305495 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
+	<iostream>
+	<string>
+	"include\ConfigFile.h"
+	"include\ConvertASCII.h"
+
+1427301693 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\configfile.h
+	<fstream>
+
+1427305898 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\configfile.cpp
+	<string>
+	<fstream>
+	<iostream>
+	<vector>
+	"..\include\ConfigFile.h"
+	"..\include\ConvertASCII.h"
+
+1427301033 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
+
+1427305618 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
+	"..\include\ConvertASCII.h"
+	<string>
+	<vector>
+
+1427305015 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\convertascii.h
+	<string>
+

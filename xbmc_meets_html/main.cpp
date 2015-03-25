@@ -1,9 +1,16 @@
 #include <iostream>
+#include <string>
 
 #include "include\ConfigFile.h"
+#include "include\ConvertASCII.h"
 
 
 using namespace std;
+
+
+
+
+
 
 int main()
 {
@@ -11,9 +18,7 @@ int main()
 
     ConfigFile *cConfigFile = new ConfigFile();
 
-    cConfigFile->getValue("path_movies", strBuffer);
-    cConfigFile->getValue("path_moviess", strBuffer);
-    cConfigFile->getValue("cover_row", strBuffer);
+    cConfigFile->testConfig();
 
     return 0;
 }

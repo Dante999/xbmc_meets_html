@@ -1,7 +1,4 @@
 /*-----------------------------------------------------------------------------
- *                         Fachhochschule Ingolstadt
- *     Fakultät Elektrotechnik und Informatik - Studiengang EIT1a
- *-----------------------------------------------------------------------------
  * Programm :
  * Thema    :
  * Autor    : Escher Matthias
@@ -16,15 +13,19 @@
  #include <string>
  #include <fstream>
  #include <iostream>
+ #include <vector>
  #include "..\include\ConfigFile.h"
+ #include "..\include\ConvertASCII.h"
 
- #define debug 1
+ #define debug 0
 
  using namespace std;
 
 ConfigFile::ConfigFile()
 {
+    this->iMissingEntry = 0;
     //ctor
+
 }
 
 ConfigFile::~ConfigFile()
@@ -84,6 +85,7 @@ int ConfigFile::getValue(string strKeyWord, string &strValue)
     if(strValue == "")
     {
         cout << endl <<endl << "$ Eintrag \"" << strKeyWord << "\" nicht in der config.ini vorhanden!" << endl << endl ;
+        this->iMissingEntry++;
         return 2;
     }
 
@@ -102,6 +104,41 @@ int ConfigFile::checkIfExists(void)
         return 1;
     }
     else return 0;
+}
+
+int ConfigFile::testConfig(void)
+{
+    ConvertASCII *cConvert = new ConvertASCII();
+
+    vector <string> strKeyWord;
+
+    strKeyWord.push_back("path_movies");
+    strKeyWord.push_back("path_destination");
+    strKeyWord.push_back("cover_row");
+    strKeyWord.push_back("cover_column");
+    strKeyWord.push_back("name_cover");
+    strKeyWord.push_back("codecs");
+
+    string strBuffer = "";
+    unsigned int i;
+
+    cout << "------------------------------------------------------------------------" << endl;
+    cout << cConvert->str("Überprüfe config Einträge...") << endl << endl;
+
+    for( i=0; i<strKeyWord.size(); i++)
+    {
+        if (getValue(strKeyWord[i], strBuffer) == 0)
+        {
+            cout << strKeyWord[i] << " -> " << strBuffer << endl;
+        }
+
+    }
+
+    cout << endl <<  cConvert->str("Überprüfung beendet!") << endl;
+    cout << cConvert->str("Fehlende Einträge: ") << iMissingEntry << endl;
+    cout << "------------------------------------------------------------------------" << endl << endl;
+
+    return 0;
 }
 
 
