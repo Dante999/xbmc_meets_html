@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<movie xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <title>Dämon</title>
+    <originaltitle>Fallen</originaltitle>
+    <sorttitle>Dämon</sorttitle>
+    <rating>7.0</rating>
+    <country>Vereinigte Staaten</country>
+    <year>1998</year>
+    <outline>Detective John Hobbes hat einen bestialischen Serienkiller zur Strecke gebracht und dessen Hinrichtung mit eigenen Augen beobachtet. Doch wenig später geht die unheimliche Mordserie weiter. Für Detective Hobbes beginnt ein unbeschreiblicher Alptraum...</outline>
+    <plot>Detective John Hobbes hat einen bestialischen Serienkiller zur Strecke gebracht und dessen Hinrichtung mit eigenen Augen beobachtet. Doch wenig später geht die unheimliche Mordserie weiter. Für Detective Hobbes beginnt ein unbeschreiblicher Alptraum...</plot>
+    <runtime>4mn</runtime>
+    <mpaa>16</mpaa>
+    <id>tt0119099</id>
+    <genre>Drama / Fantasy / Krimi / Thriller</genre>
+    <playcount>0</playcount>
+    <watched />
+    <set />
+    <director>Directing</director>
+    <author>Editing</author>
+    <actor>
+        <name>Denzel Washington</name>
+        <role>John Hobbes</role>
+    </actor>
+    <actor>
+        <name>John Goodman</name>
+        <role>Jonesy</role>
+    </actor>
+    <actor>
+        <name>Donald Sutherland</name>
+        <role>Lt. Stanton</role>
+    </actor>
+    <actor>
+        <name>Embeth Davidtz</name>
+        <role>Gretta Milano</role>
+    </actor>
+    <actor>
+        <name>James Gandolfini</name>
+        <role>Lou</role>
+    </actor>
+    <actor>
+        <name>Elias Koteas</name>
+        <role>Edgar Reese</role>
+    </actor>
+    <actor>
+        <name>Gabriel Casseus</name>
+        <role>Art</role>
+    </actor>
+    <actor>
+        <name>Michael J. Pagan</name>
+        <role>Sam</role>
+    </actor>
+    <actor>
+        <name>Robert Joy</name>
+        <role>Charles</role>
+    </actor>
+    <actor>
+        <name>Frank Medrano</name>
+        <role>Charles' Killer</role>
+    </actor>
+    <studio>Turner Pictures (I)</studio>
+    <fileinfo>
+        <streamdetails>
+            <video>
+                <codec>h264</codec>
+                <framerate>25</framerate>
+                <aspect>1.78</aspect>
+                <height>720</height>
+                <width>1280</width>
+            </video>
+            <audio>
+                <codec>aac</codec>
+                <language>German</language>
+                <channels>2</channels>
+            </audio>
+            <mediainfo />
+        </streamdetails>
+    </fileinfo>
+</movie>

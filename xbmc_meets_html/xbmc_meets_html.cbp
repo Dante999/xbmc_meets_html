@@ -33,8 +33,12 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ConfigFile.h" />
+		<Unit filename="include/ConvertASCII.h" />
+		<Unit filename="include/NfoFile.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ConfigFile.cpp" />
+		<Unit filename="src/ConvertASCII.cpp" />
+		<Unit filename="src/NfoFile.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

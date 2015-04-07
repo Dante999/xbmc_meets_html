@@ -1,7 +1,9 @@
 #ifndef NFOFILE_H
 #define NFOFILE_H
 
-using namespace std;
+#include <string>
+#include <fstream>
+#include <vector>
 
 class NfoFile
 {
@@ -9,17 +11,28 @@ class NfoFile
         NfoFile();
         virtual ~NfoFile();
 
-        int getClippers(void);
-#if 0
-        string strKeyWord;
-        string strLeftInnerClipper;
-        string strRightInnerClipper;
-        string strLeftOuterClipper;
-        string strRightOuterClipper;
 
-#endif
+        int getValue(std::string strParameter, std::string strNfoPath, std::vector <std::string> &vecstrValue);
+        int testNfo(void);
+
+
+
     protected:
     private:
+        int getClippers(void);
+        int openFile(void);
+        int closeFile(void);
+
+
+        std::ifstream ifstrmNfoFile;
+        std::string strKeyWord;
+        std::string strLeftInnerClipper;
+        std::string strRightInnerClipper;
+        std::string strLeftOuterClipper;
+        std::string strRightOuterClipper;
+
+        std::string strNfoPath;
+        std::string strParameter;
 
 };
 

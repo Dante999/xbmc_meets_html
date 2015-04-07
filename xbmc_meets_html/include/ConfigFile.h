@@ -1,7 +1,7 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 
-using namespace std;
+
 #include <fstream>
 
 class ConfigFile
@@ -10,13 +10,13 @@ class ConfigFile
     public:
         ConfigFile();
         virtual ~ConfigFile();
-        int getValue(string strKeyWord, string &strValue);
-        int checkIfExists(void);
+        int getValue(std::string strParameter, std::string &strValue);
+        bool checkIfExists(void);
         int testConfig(void);
 
     protected:
     private:
-        ifstream ifConfigFile;
+        std::ifstream ifstrmConfigFile;
         int openFile(void);
         int closeFile(void);
         int iMissingEntry;

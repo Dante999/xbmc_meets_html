@@ -12,6 +12,7 @@
  #include "..\include\ConvertASCII.h"
  #include <string>
  #include <vector>
+ #include <iostream>
 
  using namespace std;
 
@@ -28,7 +29,26 @@ _ß "\xE1 \b"
 
 ConvertASCII::ConvertASCII()
 {
-    //ctor
+    this->vecstrUmlaut.push_back("Ä");
+    this->vecstrASCII.push_back("\x8E \b");
+
+    this->vecstrUmlaut.push_back("ä");
+    this->vecstrASCII.push_back("\x84 \b");
+
+    this->vecstrUmlaut.push_back("Ö");
+    this->vecstrASCII.push_back("\x99 \b");
+
+    this->vecstrUmlaut.push_back("ö");
+    this->vecstrASCII.push_back("\x94 \b");
+
+    this->vecstrUmlaut.push_back("Ü");
+    this->vecstrASCII.push_back("\x9A \b");
+
+    this->vecstrUmlaut.push_back("ü");
+    this->vecstrASCII.push_back("\x81 \b");
+
+    this->vecstrUmlaut.push_back("ß");
+    this->vecstrASCII.push_back("\xE1 \b");
 }
 
 ConvertASCII::~ConvertASCII()
@@ -38,50 +58,25 @@ ConvertASCII::~ConvertASCII()
 
 string ConvertASCII::str ( string strText)
 {
-    vector <string> vecstrUmlaut;
-    vector <string> vecstrASCII;
+    unsigned int i = 0;
 
-    vecstrUmlaut.push_back("Ä");
-    vecstrASCII.push_back("\x8E \b");
-
-    vecstrUmlaut.push_back("ä");
-    vecstrASCII.push_back("\x84 \b");
-
-    vecstrUmlaut.push_back("Ö");
-    vecstrASCII.push_back("\x99 \b");
-
-    vecstrUmlaut.push_back("ö");
-    vecstrASCII.push_back("\x94 \b");
-
-    vecstrUmlaut.push_back("Ü");
-    vecstrASCII.push_back("\x9A \b");
-
-    vecstrUmlaut.push_back("ü");
-    vecstrASCII.push_back("\x81 \b");
-
-    vecstrUmlaut.push_back("ß");
-    vecstrASCII.push_back("\xE1 \b");
-
-    unsigned int i;
-
-    size_t sztCursorPos;
-
+    size_t sztCursorPos = 0;
 
     while( sztCursorPos != strText.size() )
     {
-        for(i=0; i<vecstrUmlaut.size(); i++)
+        for(i=0; i<this->vecstrUmlaut.size(); i++)
         {
-            if(strText.find(vecstrUmlaut[i]) != string::npos)
+            if(strText.find(this->vecstrUmlaut[i]) != string::npos)
             {
-                sztCursorPos = strText.find(vecstrUmlaut[i]);
+                sztCursorPos = strText.find(this->vecstrUmlaut[i]);
 
                 strText.erase( sztCursorPos, 1);
-                strText.insert(sztCursorPos, vecstrASCII[i]);
+                strText.insert(sztCursorPos, this->vecstrASCII[i]);
             }
         }
 
         sztCursorPos++;
-
     }
 
-    return strText;}
+    return strText;
+}

@@ -10,6 +10,19 @@
  *-----------------------------------------------------------------------------
  */
 
+
+
+
+/** TODO
+
+    - configfile wird bei CheckIfExists und OpenFile doppelt zugewiesen
+
+
+**/
+
+
+
+
  #include <string>
  #include <fstream>
  #include <iostream>
@@ -33,24 +46,29 @@ ConfigFile::~ConfigFile()
     //dtor
 }
 
+
 int ConfigFile::openFile(void)
 {
-    if(checkIfExists() == 0)
+    this->ifstrmConfigFile.open("config.ini");
+
+    if( this->ifstrmConfigFile == 0)
     {
-        this->ifConfigFile.open("config.ini");
-        return 0;
+        cout << endl << "Keine config.ini vorhanden!" << endl;
+        return 1;
     }
-    else return 1;
+
+    else return 0;
 }
+
 
 int ConfigFile::closeFile(void)
 {
-    this->ifConfigFile.close();
+    this->ifstrmConfigFile.close();
 
     return 0;
 }
 
-int ConfigFile::getValue(string strKeyWord, string &strValue)
+int ConfigFile::getValue(string strParameter, string &strValue)
 {
     string strBuffer = "";
     size_t sztStartPos;
@@ -59,11 +77,11 @@ int ConfigFile::getValue(string strKeyWord, string &strValue)
     strValue = "";
     if ( openFile() != 0) return 1;
 
-    while(getline(this->ifConfigFile, strBuffer, '\n'))               // Lies komplette Zeile ein
+    while(getline(this->ifstrmConfigFile, strBuffer, '\n'))               // Lies komplette Zeile ein
     {
       if(strBuffer.find('#') == string::npos)                    // Zeile nur beachten, wenn kein '#' in ihr steht
       {
-         if(strBuffer.find(strKeyWord) != string::npos)            // Ausführen wenn String gefunden wurde
+         if(strBuffer.find(strParameter) != string::npos)            // Ausführen wenn String gefunden wurde
          {
             sztEndPos = strBuffer.find_last_of('"');         // Positon des letzten '"' finden
             strBuffer.erase(sztEndPos);                      // alles ab letzte '"' löschen
@@ -71,7 +89,7 @@ int ConfigFile::getValue(string strKeyWord, string &strValue)
             sztStartPos = strBuffer.find_first_of('"');          // Position des ersten '"' finden
             strBuffer.erase(0, (sztStartPos+1));     // lösche alles bis zum ersten '"' (falls diese erwünscht sind, bis eine Position davor)
 
-            if (debug) cout << strKeyWord << "    " << strBuffer << endl;
+            if (debug) cout << strParameter << "    " << strBuffer << endl;
 
             strValue = strBuffer;
 
@@ -84,7 +102,7 @@ int ConfigFile::getValue(string strKeyWord, string &strValue)
 
     if(strValue == "")
     {
-        cout << endl <<endl << "$ Eintrag \"" << strKeyWord << "\" nicht in der config.ini vorhanden!" << endl << endl ;
+        cout << endl <<endl << "$ Eintrag \"" << strParameter << "\" nicht in der config.ini vorhanden!" << endl << endl ;
         this->iMissingEntry++;
         return 2;
     }
@@ -94,30 +112,20 @@ int ConfigFile::getValue(string strKeyWord, string &strValue)
     return 0;
 }
 
-int ConfigFile::checkIfExists(void)
-{
-    fstream streamConfigFile ("config.ini", ios::in);                // Datei öffnen
 
-    if( streamConfigFile == 0)
-    {
-        cout << endl << "Keine config.ini vorhanden!" << endl;
-        return 1;
-    }
-    else return 0;
-}
 
 int ConfigFile::testConfig(void)
 {
     ConvertASCII *cConvert = new ConvertASCII();
 
-    vector <string> strKeyWord;
+    vector <string> strParameter;
 
-    strKeyWord.push_back("path_movies");
-    strKeyWord.push_back("path_destination");
-    strKeyWord.push_back("cover_row");
-    strKeyWord.push_back("cover_column");
-    strKeyWord.push_back("name_cover");
-    strKeyWord.push_back("codecs");
+    strParameter.push_back("path_movies");
+    strParameter.push_back("path_destination");
+    strParameter.push_back("cover_row");
+    strParameter.push_back("cover_column");
+    strParameter.push_back("name_cover");
+    strParameter.push_back("codecs");
 
     string strBuffer = "";
     unsigned int i;
@@ -125,18 +133,20 @@ int ConfigFile::testConfig(void)
     cout << "------------------------------------------------------------------------" << endl;
     cout << cConvert->str("Überprüfe config Einträge...") << endl << endl;
 
-    for( i=0; i<strKeyWord.size(); i++)
+    for( i=0; i<strParameter.size(); i++)
     {
-        if (getValue(strKeyWord[i], strBuffer) == 0)
+        if (getValue(strParameter[i], strBuffer) == 0)
         {
-            cout << strKeyWord[i] << " -> " << strBuffer << endl;
+            cout << strParameter[i] << " -> " << strBuffer << endl;
         }
 
     }
 
-    cout << endl <<  cConvert->str("Überprüfung beendet!") << endl;
+    cout << endl <<  cConvert->str("Überprüfung abgeschlossen!") << endl;
     cout << cConvert->str("Fehlende Einträge: ") << iMissingEntry << endl;
     cout << "------------------------------------------------------------------------" << endl << endl;
+
+    delete cConvert;
 
     return 0;
 }
