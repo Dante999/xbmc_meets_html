@@ -77,20 +77,66 @@ int NfoFile::closeFile(void)
 
 int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &vecstrValue)
 {
-    int status_return = 1;
     vecstrValue.clear();
 
     string strBuffer = "";
-    bool bFoundOuterClippers;
+    bool bPosInsideOuterClippers = false;
 
     size_t sztStartPos = 0;
     size_t sztEndPos   = 0;
+    int iFoundResults = 0;
 
 
     this->strKeyWord = strParameter;
     this->strNfoPath = strNfoPath;
 
+
+    if (openFile() != 0) return 1;
+
     getClippers();
+
+
+    while(getline(this->ifstrmNfoFile, strBuffer, ('\n')) )
+    {
+
+        if(strBuffer.find(this->strLeftOuterClipper) != string::npos)
+        {
+            bPosInsideOuterClippers = true;
+        }
+        else if(strBuffer.find(this->strRightOuterClipper) != string::npos)
+        {
+            bPosInsideOuterClippers = false;
+        }
+
+        if(strBuffer.find(strLeftInnerClipper) != string::npos && (bPosInsideOuterClippers == true))
+        {
+            sztStartPos = strBuffer.find_first_of(strLeftInnerClipper);
+            sztEndPos   = strBuffer.find_last_of(strRightInnerClipper);
+
+            strBuffer.erase( (sztEndPos+1) - strRightInnerClipper.length() );
+            strBuffer.erase( 0, sztStartPos + strLeftInnerClipper.length() );
+
+            iFoundResults++;
+
+            vecstrValue.push_back(strBuffer);
+        }
+    }
+
+    if(iFoundResults == 0)
+    {
+        cout << endl;
+        cout << "Entsprechenden Eintrag nicht in der .nfo Datei gefunden!" << endl;
+        cout << "Eintrag: " << this->strKeyWord << endl;
+        cout << "Pfad: " << this->strNfoPath << endl;
+        cout << endl;
+
+        return 1;
+    }
+
+    return 0;
+}
+
+
 
 #if 0
     if( nfo_file != 0 )
@@ -102,14 +148,14 @@ int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &v
 
             if(str_buffer.find(start_htag) != (size_t)-1)                                   // Äußerer Tag gefunden
             {
-                bFoundOuterClippers = true;
+                bPosInsideOuterClippers = true;
             }
             else if (str_buffer.find(end_htag) != (size_t)-1)                               // Innerer Tag gefunden
             {
-                bFoundOuterClippers = false;
+                bPosInsideOuterClippers = false;
             }
 
-            if( (str_buffer.find(start_ltag) != (size_t)-1) && (bFoundOuterClippers == true) )       // Ausführen wenn String gefunden wurde
+            if( (str_buffer.find(start_ltag) != (size_t)-1) && (bPosInsideOuterClippers == true) )       // Ausführen wenn String gefunden wurde
             {
                 start_pos   = str_buffer.find_first_of(start_ltag);
                 end_pos     = str_buffer.find_last_of(end_ltag);
@@ -138,13 +184,10 @@ int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &v
     }
 
 
-    #endif
+
 
     return status_return;
-
- }                 // Ende Funktion
-
-
+    #endif
 
 
 int NfoFile::getClippers(void)
