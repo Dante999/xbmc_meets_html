@@ -24,12 +24,11 @@ int main()
     ConfigFile  *cConfigFile = new ConfigFile();
     NfoFile     *cNfoFile = new NfoFile();
 
-   // cConfigFile->testConfig();
-   // cNfoFile->testNfo();
+    cConfigFile->testConfig();
+    cNfoFile->testNfo();
 
     // TODO : ConvertASCII in gemeinsame Klasse zur verarbeitung von strings und vectoren umbauen
 
-    cout << "test 1" << endl;
 
     FileOperations::ListFolders("E:\\Sandbox\\test_movies", vecstrBuffer);
     StringTools::printVecstr(vecstrBuffer);

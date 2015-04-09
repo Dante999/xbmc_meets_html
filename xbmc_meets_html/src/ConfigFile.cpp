@@ -38,7 +38,6 @@ ConfigFile::ConfigFile()
 {
     this->iMissingEntry = 0;
     //ctor
-
 }
 
 ConfigFile::~ConfigFile()
@@ -46,7 +45,14 @@ ConfigFile::~ConfigFile()
     //dtor
 }
 
-
+/** \brief Öffnen des Config Files
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   keine config.ini vorhanden
+ *
+ */
 int ConfigFile::openFile(void)
 {
     this->ifstrmConfigFile.open("config.ini");
@@ -61,20 +67,48 @@ int ConfigFile::openFile(void)
 }
 
 
+/** \brief Schließen des Config Files
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   config.ini konnte nicht geschlossen werden
+ *
+ */
 int ConfigFile::closeFile(void)
 {
     this->ifstrmConfigFile.close();
 
+    if( this->ifstrmConfigFile.is_open() == true)
+    {
+        cout << endl;
+        cout << "config.ini konnte nicht geschlossen werden!" << endl;
+        cout << endl;
+        return 1;
+    }
+
     return 0;
 }
 
+
+/** \brief  Auslesen eines Wertes in der config.ini
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   config.ini konnte nicht geöffnet werden
+ *          2   config.ini konnte nicht geschlossen werden
+ *          3   Eintrag nicht in der config.ini gefunden
+ *
+ */
 int ConfigFile::getValue(string strParameter, string &strValue)
 {
     string strBuffer = "";
-    size_t sztStartPos;
-    size_t sztEndPos;
+    size_t sztStartPos = 0;
+    size_t sztEndPos = 0;
 
     strValue = "";
+
     if ( openFile() != 0) return 1;
 
     while(getline(this->ifstrmConfigFile, strBuffer, '\n'))               // Lies komplette Zeile ein
@@ -97,23 +131,27 @@ int ConfigFile::getValue(string strParameter, string &strValue)
       }         // kein # gefunden
     }           // alle Zeilen einlesen
 
-    closeFile();
-
+    if (closeFile() != 0) return 2;
 
     if(strValue == "")
     {
         cout << endl <<endl << "$ Eintrag \"" << strParameter << "\" nicht in der config.ini vorhanden!" << endl << endl ;
         this->iMissingEntry++;
-        return 2;
+        return 3;
     }
-
-
 
     return 0;
 }
 
 
-
+/** \brief  Überprüfen der config.ini
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   Es sind fehlende Einträge in der config.ini vorhanden
+ *
+ */
 int ConfigFile::testConfig(void)
 {
     ConvertASCII *cConvert = new ConvertASCII();
@@ -147,6 +185,8 @@ int ConfigFile::testConfig(void)
     cout << "------------------------------------------------------------------------" << endl << endl;
 
     delete cConvert;
+
+    if(iMissingEntry != 0) return 1;
 
     return 0;
 }
