@@ -1,10 +1,12 @@
 # depslib dependency file v1.0
-1428427555 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
+1428585970 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
 	<iostream>
 	<string>
 	"include\ConfigFile.h"
 	"include\ConvertASCII.h"
 	"include\NfoFile.h"
+	"include\StringTools.h"
+	"include\FileOperations.h"
 
 1427890150 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\configfile.h
 	<fstream>
@@ -17,29 +19,51 @@
 	"..\include\ConfigFile.h"
 	"..\include\ConvertASCII.h"
 
-1428426532 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
+1428584095 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
 	"..\\include\ConvertASCII.h"
 	<iostream>
 	<vector>
 	<string>
 	<cstring>
 
-1428426276 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
+1428584016 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
 	"..\include\ConvertASCII.h"
 	<string>
 	<vector>
 	<iostream>
 
-1428426146 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\convertascii.h
+1428583988 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\convertascii.h
 	<string>
 	<vector>
 
-1428426146 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\\include\convertascii.h
+1428583988 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\\include\convertascii.h
 	<string>
 	<vector>
 
 1428424700 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\nfofile.h
 	<string>
 	<fstream>
+	<vector>
+
+1428585743 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\stringtools.cpp
+	<string>
+	<vector>
+	<iostream>
+	<windows.h>
+
+1428585743 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\stringtools.h
+	<vector>
+	<string>
+	<windows.h>
+
+1428586013 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\fileoperations.cpp
+	<string>
+	<vector>
+	<iostream>
+	<windows.h>
+	"..\include\StringTools.h"
+
+1428586012 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\fileoperations.h
+	<string>
 	<vector>
 

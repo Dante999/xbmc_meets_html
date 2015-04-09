@@ -30,18 +30,6 @@ NfoFile::~NfoFile()
     //dtor
 }
 
-
-#if 0
-
-        std::string strKeyWord;
-        std::string strLeftInnerClipper;
-        std::string strRightInnerClipper;
-        std::string strLeftOuterClipper;
-        std::string strRightOuterClipper;
-
-
-#endif // 0
-
 int NfoFile::openFile(void)
 {
     this->ifstrmNfoFile.open(this->strNfoPath.c_str() );
@@ -136,58 +124,6 @@ int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &v
     return 0;
 }
 
-
-
-#if 0
-    if( nfo_file != 0 )
-    {
-        create_tags(key_word, start_htag, start_ltag, end_ltag, end_htag);                  // Generiere Such-Tags
-
-        while(getline(nfo_file, str_buffer, '\n'))                                          // Lies komplette Zeile ein
-        {
-
-            if(str_buffer.find(start_htag) != (size_t)-1)                                   // Äußerer Tag gefunden
-            {
-                bPosInsideOuterClippers = true;
-            }
-            else if (str_buffer.find(end_htag) != (size_t)-1)                               // Innerer Tag gefunden
-            {
-                bPosInsideOuterClippers = false;
-            }
-
-            if( (str_buffer.find(start_ltag) != (size_t)-1) && (bPosInsideOuterClippers == true) )       // Ausführen wenn String gefunden wurde
-            {
-                start_pos   = str_buffer.find_first_of(start_ltag);
-                end_pos     = str_buffer.find_last_of(end_ltag);
-
-                str_buffer.erase( (end_pos+1) - end_ltag.length() );                        // Lösche Ende String
-                str_buffer.erase( 0, start_pos + start_ltag.length() );                     // Lösche Anfang String
-
-                if (debug) cout << key_word << "    " << str_buffer << endl;
-
-                vec_str_memory.push_back(str_buffer);
-                status_return = 0;
-            }
-
-        }
-
-        nfo_file.close();
-    }
-
-    else
-    {
-        cout << endl;
-        cout << "$ read_nfo(): Pfad zur nfo Datei existiert nicht!" << endl;
-        cout << "$ Pfad:     " << nfo_path << endl;
-        cout << "$ Suchwort: " << key_word << endl;
-        cout << endl;
-    }
-
-
-
-
-    return status_return;
-    #endif
 
 
 int NfoFile::getClippers(void)

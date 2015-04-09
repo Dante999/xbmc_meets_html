@@ -16,16 +16,6 @@
 
  using namespace std;
 
-/**
-_Ä "\x8E \b"
-_ä "\x84 \b"
-_Ö "\x99 \b"
-_ö "\x94 \b"
-_Ü "\x9A \b"
-_ü "\x81 \b"
-_ß "\xE1 \b"
-**/
-
 
 ConvertASCII::ConvertASCII()
 {

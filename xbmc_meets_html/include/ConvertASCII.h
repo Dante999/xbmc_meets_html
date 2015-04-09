@@ -15,8 +15,8 @@ class ConvertASCII
         std::string str ( std::string strText);
 
     protected:
-    private:
 
+    private:
         std::vector <std::string> vecstrUmlaut;
         std::vector <std::string> vecstrASCII;
 };

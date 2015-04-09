@@ -4,14 +4,11 @@
 #include "include\ConfigFile.h"
 #include "include\ConvertASCII.h"
 #include "include\NfoFile.h"
+#include "include\StringTools.h"
+#include "include\FileOperations.h"
 
 
 using namespace std;
-
-
-
-
-
 
 int main()
 {
@@ -27,13 +24,21 @@ int main()
     ConfigFile  *cConfigFile = new ConfigFile();
     NfoFile     *cNfoFile = new NfoFile();
 
-    cConfigFile->testConfig();
-    cNfoFile->testNfo();
+   // cConfigFile->testConfig();
+   // cNfoFile->testNfo();
 
     // TODO : ConvertASCII in gemeinsame Klasse zur verarbeitung von strings und vectoren umbauen
 
+    cout << "test 1" << endl;
 
-    cNfoFile->getValue("title", "TestFile\\movie.nfo", vecstrBuffer);
+    FileOperations::ListFolders("E:\\Sandbox\\test_movies", vecstrBuffer);
+    StringTools::printVecstr(vecstrBuffer);
+
+
+    cout << "Ende Main()" << endl;
+
+
+
 
 
 
