@@ -44,6 +44,31 @@ int StringTools::vecToStr ( vector <string> vecstrInVector, string &strOutString
     return 0;
 }
 
+int StringTools::strToVec (string strInString, vector <string> &vecstrOutVector, string strConnector)
+{
+    size_t  sztLeftPos  = 0;
+    size_t  sztRightPos = 0;
+    string  strBuffer    = "";
+
+    vecstrOutVector.clear();
+
+    while( sztRightPos != string::npos)
+    {
+        sztRightPos = strInString.find(strConnector, sztLeftPos);
+        strBuffer = strInString.substr(sztLeftPos, sztRightPos-sztLeftPos);
+        sztLeftPos = sztRightPos;
+
+        vecstrOutVector.push_back(strBuffer);
+
+        sztLeftPos++;
+    }
+
+
+    return 0;
+}
+
+
+
 
 LPCSTR StringTools::strToLpcstr(string strTmp)
 {

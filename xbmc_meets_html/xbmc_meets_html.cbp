@@ -35,12 +35,14 @@
 		<Unit filename="include/ConfigFile.h" />
 		<Unit filename="include/ConvertASCII.h" />
 		<Unit filename="include/FileOperations.h" />
+		<Unit filename="include/MovieFolder.h" />
 		<Unit filename="include/NfoFile.h" />
 		<Unit filename="include/StringTools.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ConfigFile.cpp" />
 		<Unit filename="src/ConvertASCII.cpp" />
 		<Unit filename="src/FileOperations.cpp" />
+		<Unit filename="src/MovieFolder.cpp" />
 		<Unit filename="src/NfoFile.cpp" />
 		<Unit filename="src/StringTools.cpp" />
 		<Extensions>

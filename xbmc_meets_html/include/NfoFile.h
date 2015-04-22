@@ -8,11 +8,11 @@
 class NfoFile
 {
     public:
-        NfoFile();
+        NfoFile( std::string strNfoPath);
         virtual ~NfoFile();
 
 
-        int getValue(std::string strParameter, std::string strNfoPath, std::vector <std::string> &vecstrValue);
+        int getValue(std::string strParameter, std::vector <std::string> &vecstrValue);
         int testNfo(void);
 
 

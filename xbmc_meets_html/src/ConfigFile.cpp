@@ -9,24 +9,11 @@
  *
  *-----------------------------------------------------------------------------
  */
-
-
-
-
-/** TODO
-
-    - configfile wird bei CheckIfExists und OpenFile doppelt zugewiesen
-
-
-**/
-
-
-
-
  #include <string>
  #include <fstream>
  #include <iostream>
  #include <vector>
+
  #include "..\include\ConfigFile.h"
  #include "..\include\ConvertASCII.h"
 

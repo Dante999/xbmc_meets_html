@@ -1,7 +1,6 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 
-
 #include <fstream>
 
 class ConfigFile

@@ -31,7 +31,7 @@ FileOperations::~FileOperations()
     //dtor
 }
 
-int FileOperations::ListFolders( string strFolderPath, vector <string> &vecstrContainedFolders)
+int FileOperations::listFolders( string strFolderPath, vector <string> &vecstrContainedFolders)
 {
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
@@ -92,9 +92,108 @@ int FileOperations::ListFolders( string strFolderPath, vector <string> &vecstrCo
 }
 
 
+int FileOperations::findFile( const string strPath, const string strSearchParam, bool bWholeWord, vector <string> &vecstrFoundFiles)
+{
+    string strFolderPath;
+    string strFilename;
+
+    vecstrFoundFiles.clear();
+
+    WIN32_FIND_DATA FData;
+    BOOL MoreFiles = FALSE;
+
+    strFolderPath = strPath + "\\*.*";
+
+    LPCSTR lpcstr_path = StringTools::strToLpcstr(strFolderPath);                                        // Convertieren str -> LPCSTR
+    HANDLE hSearch = FindFirstFile(lpcstr_path,&FData);                                     // Suchpfad angeben
+
+    if (hSearch == INVALID_HANDLE_VALUE)                                                    // Bei ungültigem Pfad, Funktion beenden
+    {
+        cout << endl;
+        cout << "$ find_file(): ungueltiger Pfad angegeben!" << endl;
+        cout << "$ Pfad: " << strPath << endl;
+        cout << endl;
+
+        return -1;                                                                          // Falls ungueltige Angabe, Funktion beenden
+    }
+
+    do
+    {
+
+        if (FData.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)                             // Datei gefunden
+        {
+            strFilename = FData.cFileName;                                                    // Schreibe Ordnernamen in String
+
+            if( bWholeWord == true && strFilename.compare(strSearchParam) == 0)
+            {
+                vecstrFoundFiles.push_back(strFilename);
+            }
+            else if ( bWholeWord == false && strFilename.find(strSearchParam) != string::npos)
+            {
+                vecstrFoundFiles.push_back(strFilename);
+            }
+        }
+
+        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nächste Datei
+
+    } while (MoreFiles);
+
+    FindClose(hSearch);
+
+    return 0;
+}
 
 
+int FileOperations::findFolder( const string strPath, const string strSearchParam, bool bWholeWord, vector <string> &vecstrFoundFolders)
+{
+    string strFolderPath;
+    string strBuffer;
 
+    vecstrFoundFolders.clear();
+
+    WIN32_FIND_DATA FData;
+    BOOL MoreFiles = FALSE;
+
+    strFolderPath = strPath + "\\*.*";
+
+    LPCSTR lpcstr_path = StringTools::strToLpcstr(strFolderPath);                                        // Convertieren str -> LPCSTR
+    HANDLE hSearch = FindFirstFile(lpcstr_path,&FData);                                     // Suchpfad angeben
+
+    if (hSearch == INVALID_HANDLE_VALUE)                                                    // Bei ungültigem Pfad, Funktion beenden
+    {
+        cout << endl;
+        cout << "$ find_file(): ungueltiger Pfad angegeben!" << endl;
+        cout << "$ Pfad: " << strPath << endl;
+        cout << endl;
+
+        return -1;                                                                          // Falls ungueltige Angabe, Funktion beenden
+    }
+
+    do
+    {
+
+        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                             // Datei gefunden
+        {
+            strBuffer = FData.cFileName;                                                    // Schreibe Ordnernamen in String
+
+            if( bWholeWord == true && strBuffer.compare(strSearchParam) == 0)
+            {
+                vecstrFoundFolders.push_back(strBuffer);
+            }
+            else if ( bWholeWord == false && strBuffer.find(strSearchParam) != string::npos)
+            {
+                vecstrFoundFolders.push_back(strBuffer);
+            }
+        }
+
+        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nächste Datei
+
+    } while (MoreFiles);
+
+    FindClose(hSearch);
+
+    return 0;
+}
 
 
 

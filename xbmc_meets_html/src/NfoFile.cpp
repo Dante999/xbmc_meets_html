@@ -20,8 +20,9 @@
 using namespace std;
 
 
-NfoFile::NfoFile()
+NfoFile::NfoFile( string strNfoPath)
 {
+    this->strNfoPath = strNfoPath;
     //ctor
 }
 
@@ -63,7 +64,7 @@ int NfoFile::closeFile(void)
 
 }
 
-int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &vecstrValue)
+int NfoFile::getValue(string strParameter, vector <string> &vecstrValue)
 {
     vecstrValue.clear();
 
@@ -76,8 +77,6 @@ int NfoFile::getValue(string strParameter, string strNfoPath, vector <string> &v
 
 
     this->strKeyWord = strParameter;
-    this->strNfoPath = strNfoPath;
-
 
     if (openFile() != 0) return 1;
 
