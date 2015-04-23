@@ -68,8 +68,6 @@ int StringTools::strToVec (string strInString, vector <string> &vecstrOutVector,
 }
 
 
-
-
 LPCSTR StringTools::strToLpcstr(string strTmp)
 {
     return strTmp.c_str();
@@ -85,7 +83,7 @@ int StringTools::printVecstr(vector <string> &vecstrTmp)
 
     for( i=0; i<vecstrTmp.size(); i++)
     {
-        cout << "Element " << i << " :  " << vecstrTmp.at(i) << endl;
+        cout << "Element " << i << " :  >" << vecstrTmp.at(i) << "<" << endl;
     }
 
     cout << "-------------------------------------------------" << endl << endl;
@@ -93,4 +91,44 @@ int StringTools::printVecstr(vector <string> &vecstrTmp)
     return 0;
 }
 
+string StringTools::compareVecAttr(vector <string> &vecstrTmp)
+{
+    string strBuffer;
 
+    unsigned int i;
+
+    if(vecstrTmp.size() == 0)
+    {
+        return "";
+    }
+
+    else if (vecstrTmp.size() == 1)
+    {
+        return vecstrTmp[0];
+    }
+
+    else
+    {
+        strBuffer = vecstrTmp[1];
+
+        for( i=0; i<vecstrTmp.size(); i++)
+        {
+            if( strBuffer.size() > vecstrTmp[i].size() )
+            {
+                strBuffer.erase(vecstrTmp[i].size());
+            }
+
+            unsigned int j;
+
+            for (j=0; j < strBuffer.size(); j++)
+            {
+                if (strBuffer.compare(0, j, vecstrTmp[i].substr(0, j) ) != 0)
+                {
+                    strBuffer.erase(j-1);
+                }
+            }
+        }
+    }
+
+    return strBuffer;
+}

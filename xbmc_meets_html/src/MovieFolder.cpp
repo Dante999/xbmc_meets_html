@@ -34,94 +34,69 @@ MovieFolder::~MovieFolder()
     //dtor
 }
 
+string MovieFolder::getMovieFilename()
+{
+    return this->strMovieFilename;
+}
+
 int MovieFolder::SearchMovieFile()
 {
-
    ConfigFile *oConfigFile = new ConfigFile();
 
-        string strBuffer;
-        vector <string> vecstrBuffer;
-        vector <string> vecstrCodecs;
-        unsigned int i = 0;
+    string strBuffer;
+    vector <string> vecstrBuffer;
+    vector <string> vecstrCodecs;
+    vector <string> vecstrFoundMovieFiles;
+    unsigned int i = 0;
+    unsigned int j;
+
+    oConfigFile->getValue("codecs", strBuffer);                                                             // Zwischenspeichern aller Codecs in einen String
+    StringTools::strToVec(strBuffer, vecstrCodecs, " ");                                                    // Umwandeln der Codecs in einen Vektor
 
 
-// TODO FUNKTION ÜBERPRÜFEN!!!!
+    while( i < vecstrCodecs.size() )                                                                        /** Durchsuche Filmordner nach allen Codecs **/
+    {
+        if( vecstrCodecs[i].find(".") != string::npos)                                                      /** gesuchtes Codec ist eine Dateiendung **/
+        {
+            FileOperations::findFile(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer);
+        }
 
-
-       oConfigFile->getValue("codecs", strBuffer);
-       StringTools::strToVec(strBuffer, vecstrCodecs, " ");
-
-       while( i < vecstrCodecs.size() )
-       {
-
-        if( vecstrCodecs[i].find(".") == string::npos)
+        else                                                                                                /** gesuchtes Codec ist ein Ordner (z.B. DVD-> VIDEO_TS **/
         {
             FileOperations::findFolder(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer);
-
-            if(vecstrBuffer.size() > 0) StringTools::printVecstr(vecstrBuffer);
         }
-
-        else
-        {
-            if( FileOperations::findFile(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer) == 0)
-            {
-                cout << "Videodatei(en): " << endl;
-                StringTools::printVecstr(vecstrBuffer);
-                return 0;
-            }
-
-        }
-
-
 
         i++;
-       }
 
-
-        cout << endl;
-        cout << "$ find_movie_file(): Keine Videodatei gefunden!" << endl;
-        cout << "$ gesuchte Codecs: " << strBuffer << endl;
-        cout << "$ Ordnerpfad:      " << this->strMovieFolderPath << endl;
-        cout << endl;
-
-
-    return 1;
-
-
-/**
-        int status_return = 1;
-
-
-        read_config("codecs", str_buffer);
-        str_to_vec(str_buffer, vec_str_buffer, " ");
-
-        unsigned int i = 0;
-
-        while ( status_return == 1 && i<vec_str_buffer.size() )
+        for(j=0; j<vecstrBuffer.size(); j++)                                                                /** Speichere gefundenes Codec in einen Vektor **/
         {
-            if ( find_file(folder_path, vec_str_buffer[i], false, str_buffer, false) == 0 )
-            {
-                found_filename = str_buffer;
-                status_return = 0;
-                //cout << "Videodatei: " << str_buffer << endl;
-            }
-
-            i++;
+            vecstrFoundMovieFiles.push_back(vecstrBuffer[j]);
         }
+    }
 
-        if(status_return == 1)
+    if(vecstrFoundMovieFiles.size() == 0)                                                                   // kein Codec im Filmordner gefunden
+    {
+        return 1;
+    }
+
+    size_t sztPos;
+
+    oConfigFile->getValue("multiple_files", strBuffer);
+    StringTools::strToVec(strBuffer, vecstrBuffer, ";");
+
+    for(i=0; i<vecstrBuffer.size(); i++)
+    {
+        this->strMovieFilename = StringTools::compareVecAttr(vecstrFoundMovieFiles);
+
+        sztPos = this->strMovieFilename.find(vecstrBuffer[i]);
+
+        if(sztPos != string::npos)
         {
-            cout << endl;
-            cout << "$ find_movie_file(): Keine Videodatei gefunden!" << endl;
-            cout << "$ gesuchte Codecs: " << str_buffer << endl;
-            cout << "$ Ordnerpfad:      " << folder_path << endl;
-            cout << endl;
+            this->strMovieFilename.erase(sztPos);
+            return 0;
         }
+    }
 
 
-    return status_return;
-
-
-**/
-
+    return 0;
 }

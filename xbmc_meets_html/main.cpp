@@ -29,28 +29,27 @@ int main()
     //cMovieFolder->SearchMovieFile();
     string path = "E:\\Sandbox\\test_movies";
 
+
+
+
+
+#if 1
+
     FileOperations::listFolders(path, vecstrBuffer);
 
-
     unsigned int i;
-
     for( i=0; i<vecstrBuffer.size(); i++)
     {
-        cout << "Pfad: " << vecstrBuffer[i];
+        cout << endl << endl << i << ". Pfad: " << vecstrBuffer[i] << endl;
 
-        if(vecstrBuffer[i].find(".") != string::npos) FileOperations::findFile(path + "\\" + vecstrBuffer[i], "a", false, vecstrBuffer2);
-        else FileOperations::findFolder(path + "\\" + vecstrBuffer[i], "VIDEO_TS", false, vecstrBuffer2);
-
-        StringTools::printVecstr(vecstrBuffer2);
-
- /**
         MovieFolder *cMovieFolder = new MovieFolder(path + "\\" + vecstrBuffer[i]);
-        cout << i << ": ";
         cMovieFolder->SearchMovieFile();
-**/
 
+        cout << "MovieFiles: " << cMovieFolder->getMovieFilename() << endl;
+
+        cMovieFolder->~MovieFolder();
     }
-
+#endif
 
 
 #if 0
