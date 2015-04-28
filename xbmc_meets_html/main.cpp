@@ -42,12 +42,15 @@ int main()
     {
         cout << endl << endl << i << ". Pfad: " << vecstrBuffer[i] << endl;
 
+        MovieFolder oMovieFolder(path + "\\" + vecstrBuffer[i]);
+/**
         MovieFolder *cMovieFolder = new MovieFolder(path + "\\" + vecstrBuffer[i]);
         cMovieFolder->SearchMovieFile();
+**/
+        cout << "MovieFile:  " << oMovieFolder.getMovieFilename() << endl;
+        cout << "MovieCover: " << oMovieFolder.getMovieCovername() << endl;
 
-        cout << "MovieFiles: " << cMovieFolder->getMovieFilename() << endl;
 
-        cMovieFolder->~MovieFolder();
     }
 #endif
 

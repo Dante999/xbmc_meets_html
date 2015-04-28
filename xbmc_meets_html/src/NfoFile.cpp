@@ -8,13 +8,14 @@
  *
  *
  *-----------------------------------------------------------------------------
- */#include "..\\include\NfoFile.h"
-
- #include "..\\include\ConvertASCII.h"
+ */
  #include <iostream>
  #include <vector>
  #include <string>
  #include <cstring>
+
+ #include "..\\include\NfoFile.h"
+ #include "..\\include\ConvertASCII.h"
 
 
 using namespace std;
@@ -31,6 +32,14 @@ NfoFile::~NfoFile()
     //dtor
 }
 
+/** \brief  Öffne Nfo Datei
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   Fehlerhafter Pfad zur Nfo Datei
+ *
+ */
 int NfoFile::openFile(void)
 {
     this->ifstrmNfoFile.open(this->strNfoPath.c_str() );
@@ -47,6 +56,14 @@ int NfoFile::openFile(void)
     else return 0;
 }
 
+/** \brief  Schließe Nfo Datei
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   Nfo Datei konnte nicht geschlossen werden
+ *
+ */
 int NfoFile::closeFile(void)
 {
     this->ifstrmNfoFile.close();
@@ -64,6 +81,17 @@ int NfoFile::closeFile(void)
 
 }
 
+/** \brief  Auslesen eines Wertes aus der Nfo Datei
+ *
+ * \param   strParameter    Suchbegriff innerhalb der Nfo Datei
+ *          &vecstrValue    Liste der gefundenen Werte
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   Fehler beim Öffnen der Nfo Datei
+ *          2   Fehler beim Schließen der Nfo Datei
+ *          3   Entsprechender Suchbegriff nicht in der Nfo Datei gefunden
+ *
+ */
 int NfoFile::getValue(string strParameter, vector <string> &vecstrValue)
 {
     vecstrValue.clear();
@@ -81,7 +109,6 @@ int NfoFile::getValue(string strParameter, vector <string> &vecstrValue)
     if (openFile() != 0) return 1;
 
     getClippers();
-
 
     while(getline(this->ifstrmNfoFile, strBuffer, ('\n')) )
     {
@@ -109,6 +136,9 @@ int NfoFile::getValue(string strParameter, vector <string> &vecstrValue)
         }
     }
 
+
+    if(closeFile() != 0) return 2;
+
     if(iFoundResults == 0)
     {
         cout << endl;
@@ -117,14 +147,24 @@ int NfoFile::getValue(string strParameter, vector <string> &vecstrValue)
         cout << "Pfad: " << this->strNfoPath << endl;
         cout << endl;
 
-        return 1;
+        return 3;
     }
 
     return 0;
 }
 
 
-
+/** \brief  Generieren der Begrenzer in der Nfo Datei
+ *          Beispiel: Der Titel des Films wird in der Nfo Datei mit
+ *          <title> </title> gekennzeichnet.
+ *          <title> Iron Man </title>
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   Ungültiges Schüsselwort angegeben
+ *
+ */
 int NfoFile::getClippers(void)
 {
 
@@ -249,33 +289,39 @@ int NfoFile::getClippers(void)
 
 
 
-
+/** \brief  Überprüfen Nfo Datei
+ *
+ * \param   none
+ *
+ * \return  0   kein Fehler vorhanden
+ *
+ *
+ */
 int NfoFile::testNfo (void)
 {
-    ConvertASCII *cConvert = new ConvertASCII();
+    ConvertASCII oConvert;
     int iErrors = 0;
 
     this->strNfoPath = "TestFiles\\movie.nfo";
 
     cout << "------------------------------------------------------------------------" << endl;
-    cout << cConvert->str("Überprüfe Klasse NfoFile...") << endl;
+    cout << oConvert.str("Überprüfe Klasse NfoFile...") << endl;
 
     if( openFile() == 0)
     {
-        cout << endl << cConvert->str("Test-Nfo File erfolgreich geöffnet!") << endl;
+        cout << endl << oConvert.str("Test-Nfo File erfolgreich geöffnet!") << endl;
     }
     else iErrors++;
 
     if( closeFile() == 0)
     {
-        cout << endl << cConvert->str("Test-Nfo File erfolgreich geschlossen!") << endl;
+        cout << endl << oConvert.str("Test-Nfo File erfolgreich geschlossen!") << endl;
     }
     else iErrors++;
 
-    cout << endl << cConvert->str("Überprüfung abgeschlossen!") << endl;
+    cout << endl << oConvert.str("Überprüfung abgeschlossen!") << endl;
     cout << "Fehler: " << iErrors << endl;
     cout << "------------------------------------------------------------------------" << endl;
-    delete cConvert;
 
     return 0;
 }

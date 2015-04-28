@@ -9,13 +9,13 @@
  *
  *-----------------------------------------------------------------------------
  */
- #include "..\include\ConvertASCII.h"
  #include <string>
  #include <vector>
  #include <iostream>
 
- using namespace std;
+ #include "..\include\ConvertASCII.h"
 
+ using namespace std;
 
 ConvertASCII::ConvertASCII()
 {
@@ -46,6 +46,15 @@ ConvertASCII::~ConvertASCII()
     //dtor
 }
 
+/** \brief  Umwandeln eines Strings im ASCII Format um Sonderzeichen
+ *          Darzustellen
+ *
+ * \param   strText     zu konvertierender Text
+ *
+ * \return  0   kein Fehler vorhanden
+ *          1   config.ini konnte nicht geschlossen werden
+ *
+ */
 string ConvertASCII::str ( string strText)
 {
     unsigned int i = 0;

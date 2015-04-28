@@ -17,8 +17,6 @@
  #include "..\include\ConfigFile.h"
  #include "..\include\ConvertASCII.h"
 
- #define debug 0
-
  using namespace std;
 
 ConfigFile::ConfigFile()
@@ -42,9 +40,9 @@ ConfigFile::~ConfigFile()
  */
 int ConfigFile::openFile(void)
 {
-    this->ifstrmConfigFile.open("config.ini");
+    this->ifstrmConfigFile.open("config.ini");                                  // Datei öffnen
 
-    if( this->ifstrmConfigFile == 0)
+    if( this->ifstrmConfigFile == 0)                                            /** Datei konnte nicht geöffnet werden **/
     {
         cout << endl << "Keine config.ini vorhanden!" << endl;
         return 1;
@@ -64,9 +62,9 @@ int ConfigFile::openFile(void)
  */
 int ConfigFile::closeFile(void)
 {
-    this->ifstrmConfigFile.close();
+    this->ifstrmConfigFile.close();                                             // Schließe Datei
 
-    if( this->ifstrmConfigFile.is_open() == true)
+    if( this->ifstrmConfigFile.is_open() == true)                               /** Datei immer noch geöffnet **/
     {
         cout << endl;
         cout << "config.ini konnte nicht geschlossen werden!" << endl;
@@ -80,7 +78,8 @@ int ConfigFile::closeFile(void)
 
 /** \brief  Auslesen eines Wertes in der config.ini
  *
- * \param   none
+ * \param   strParameter    Parameter in der config.ini
+ *          &strValue       Wert der in der config.ini steht
  *
  * \return  0   kein Fehler vorhanden
  *          1   config.ini konnte nicht geöffnet werden
@@ -96,21 +95,19 @@ int ConfigFile::getValue(string strParameter, string &strValue)
 
     strValue = "";
 
-    if ( openFile() != 0) return 1;
+    if ( openFile() != 0) return 1;                                             // config.ini öffnen
 
-    while(getline(this->ifstrmConfigFile, strBuffer, '\n'))               // Lies komplette Zeile ein
+    while(getline(this->ifstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
     {
-      if(strBuffer.find('#') == string::npos)                    // Zeile nur beachten, wenn kein '#' in ihr steht
+      if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
       {
-         if(strBuffer.find(strParameter) != string::npos)            // Ausführen wenn String gefunden wurde
+         if(strBuffer.find(strParameter) != string::npos)                       /** Parameter wurde gefunden **/
          {
-            sztEndPos = strBuffer.find_last_of('"');         // Positon des letzten '"' finden
-            strBuffer.erase(sztEndPos);                      // alles ab letzte '"' löschen
+            sztEndPos = strBuffer.find_last_of('"');                            // Positon des letzten '"' finden
+            strBuffer.erase(sztEndPos);                                         // alles ab letzte '"' löschen
 
-            sztStartPos = strBuffer.find_first_of('"');          // Position des ersten '"' finden
-            strBuffer.erase(0, (sztStartPos+1));     // lösche alles bis zum ersten '"' (falls diese erwünscht sind, bis eine Position davor)
-
-            if (debug) cout << strParameter << "    " << strBuffer << endl;
+            sztStartPos = strBuffer.find_first_of('"');                         // Position des ersten '"' finden
+            strBuffer.erase(0, (sztStartPos+1));                                // lösche alles bis zum ersten '"' (falls diese erwünscht sind, bis eine Position davor)
 
             strValue = strBuffer;
 
@@ -118,9 +115,9 @@ int ConfigFile::getValue(string strParameter, string &strValue)
       }         // kein # gefunden
     }           // alle Zeilen einlesen
 
-    if (closeFile() != 0) return 2;
+    if (closeFile() != 0) return 2;                                             // config.ini schließen
 
-    if(strValue == "")
+    if(strValue == "")                                                          /** Falls Parameter nicht in der config.ini enthalten **/
     {
         cout << endl <<endl << "$ Eintrag \"" << strParameter << "\" nicht in der config.ini vorhanden!" << endl << endl ;
         this->iMissingEntry++;
@@ -141,7 +138,7 @@ int ConfigFile::getValue(string strParameter, string &strValue)
  */
 int ConfigFile::testConfig(void)
 {
-    ConvertASCII *cConvert = new ConvertASCII();
+    ConvertASCII oConvert;
 
     vector <string> strParameter;
 
@@ -156,7 +153,7 @@ int ConfigFile::testConfig(void)
     unsigned int i;
 
     cout << "------------------------------------------------------------------------" << endl;
-    cout << cConvert->str("Überprüfe config Einträge...") << endl << endl;
+    cout << oConvert.str("Überprüfe config Einträge...") << endl << endl;
 
     for( i=0; i<strParameter.size(); i++)
     {
@@ -167,11 +164,9 @@ int ConfigFile::testConfig(void)
 
     }
 
-    cout << endl <<  cConvert->str("Überprüfung abgeschlossen!") << endl;
-    cout << cConvert->str("Fehlende Einträge: ") << iMissingEntry << endl;
+    cout << endl <<  oConvert.str("Überprüfung abgeschlossen!") << endl;
+    cout << oConvert.str("Fehlende Einträge: ") << iMissingEntry << endl;
     cout << "------------------------------------------------------------------------" << endl << endl;
-
-    delete cConvert;
 
     if(iMissingEntry != 0) return 1;
 

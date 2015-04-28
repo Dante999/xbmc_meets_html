@@ -27,6 +27,9 @@ using namespace std;
 MovieFolder::MovieFolder( string strMovieFolderPath)
 {
     this->strMovieFolderPath = strMovieFolderPath;
+
+    SearchMovieFile();
+    SearchMovieCover();
 }
 
 MovieFolder::~MovieFolder()
@@ -39,19 +42,24 @@ string MovieFolder::getMovieFilename()
     return this->strMovieFilename;
 }
 
+string MovieFolder::getMovieCovername()
+{
+    return this->strMovieCovername;
+}
+
 int MovieFolder::SearchMovieFile()
 {
-   ConfigFile *oConfigFile = new ConfigFile();
+   ConfigFile oConfigFile;
 
-    string strBuffer;
+    string strConfigValue;
     vector <string> vecstrBuffer;
     vector <string> vecstrCodecs;
     vector <string> vecstrFoundMovieFiles;
     unsigned int i = 0;
     unsigned int j;
 
-    oConfigFile->getValue("codecs", strBuffer);                                                             // Zwischenspeichern aller Codecs in einen String
-    StringTools::strToVec(strBuffer, vecstrCodecs, " ");                                                    // Umwandeln der Codecs in einen Vektor
+    oConfigFile.getValue("codecs", strConfigValue);                                                             // Zwischenspeichern aller Codecs in einen String
+    StringTools::strToVec(strConfigValue, vecstrCodecs, " ");                                                    // Umwandeln der Codecs in einen Vektor
 
 
     while( i < vecstrCodecs.size() )                                                                        /** Durchsuche Filmordner nach allen Codecs **/
@@ -81,8 +89,8 @@ int MovieFolder::SearchMovieFile()
 
     size_t sztPos;
 
-    oConfigFile->getValue("multiple_files", strBuffer);
-    StringTools::strToVec(strBuffer, vecstrBuffer, ";");
+    oConfigFile.getValue("multiple_files", strConfigValue);
+    StringTools::strToVec(strConfigValue, vecstrBuffer, ";");
 
     for(i=0; i<vecstrBuffer.size(); i++)
     {
@@ -100,3 +108,41 @@ int MovieFolder::SearchMovieFile()
 
     return 0;
 }
+
+
+int MovieFolder::SearchMovieCover()
+{
+    string strModeCovername;
+
+    ConfigFile oConfigFile;
+
+    oConfigFile.getValue("name_cover", strModeCovername);
+
+    if( strModeCovername == "0")
+    {
+        this->strMovieCovername = "folder.jpg";
+    }
+
+    else if ( strModeCovername == "1")
+    {
+        this->strMovieCovername = this->strMovieFilename + ".jpg";
+    }
+
+
+    if( FileOperations::fileExists(this->strMovieFolderPath + "\\" + this->strMovieCovername) )
+    {
+      return 0;
+    }
+
+    else
+    {
+        this->strMovieCovername = "";
+        return 1;
+    }
+
+}
+
+
+
+
+

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1429803519 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
+1430224105 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
 	<iostream>
 	<string>
 	"include\ConfigFile.h"
@@ -12,7 +12,7 @@
 1429716005 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\configfile.h
 	<fstream>
 
-1429715995 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\configfile.cpp
+1430226065 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\configfile.cpp
 	<string>
 	<fstream>
 	<iostream>
@@ -20,14 +20,14 @@
 	"..\include\ConfigFile.h"
 	"..\include\ConvertASCII.h"
 
-1429714355 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
+1430218993 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
 	"..\\include\ConvertASCII.h"
 	<iostream>
 	<vector>
 	<string>
 	<cstring>
 
-1428584016 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
+1430226196 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
 	"..\include\ConvertASCII.h"
 	<string>
 	<vector>
@@ -57,18 +57,20 @@
 	<string>
 	<windows.h>
 
-1429793674 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\fileoperations.cpp
+1430223621 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\fileoperations.cpp
 	<string>
 	<vector>
 	<iostream>
+	<cstring>
 	<windows.h>
+	<sys/stat.h>
 	"..\include\StringTools.h"
 
-1429723208 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\fileoperations.h
+1430223579 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\fileoperations.h
 	<string>
 	<vector>
 
-1429805537 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\moviefolder.cpp
+1430224883 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\moviefolder.cpp
 	<string>
 	<vector>
 	<iostream>
@@ -77,5 +79,5 @@
 	"..\include\StringTools.h"
 	"..\include\FileOperations.h"
 
-1429794411 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\moviefolder.h
+1430223363 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\moviefolder.h
 

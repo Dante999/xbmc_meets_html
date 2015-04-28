@@ -8,13 +8,14 @@
  *
  *
  *-----------------------------------------------------------------------------
- */#include "..\include\StringTools.h"
-
+ */
  #include <string>
  #include <vector>
  #include <iostream>
 
  #include <windows.h>
+
+ #include "..\include\StringTools.h"
 
  using namespace std;
 
