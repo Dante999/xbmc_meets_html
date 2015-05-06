@@ -13,7 +13,7 @@ class StringTools
         virtual ~StringTools();
         static int vecToStr ( std::vector <std::string> vecstrInVector, std::string &strOutString, std::string strConnector);
         static LPCSTR strToLpcstr(std::string strTmp);
-        static int printVecstr(std::vector <std::string> &vecstrTmp);
+        static int printVecstr(std::vector <std::string> vecstrTmp);
         static int strToVec (std::string strInString, std::vector <std::string> &vecstrOutVector, std::string strConnector);
         static std::string compareVecAttr(std::vector <std::string> &vecstrTmp);
         static int removeFileExtension(std::string &strFileName);
