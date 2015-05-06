@@ -30,6 +30,7 @@ MovieFolder::MovieFolder( string strMovieFolderPath)
 
     SearchMovieFile();
     SearchMovieCover();
+    SearchNfoFile();
 }
 
 MovieFolder::~MovieFolder()
@@ -45,6 +46,16 @@ string MovieFolder::getMovieFilename()
 string MovieFolder::getMovieCovername()
 {
     return this->strMovieCovername;
+}
+
+string MovieFolder::getNfoFilename()
+{
+    return this->strNfoFilename;
+}
+
+string MovieFolder::getMovieFolderPath()
+{
+    return this->strMovieFolderPath;
 }
 
 int MovieFolder::SearchMovieFile()
@@ -78,25 +89,28 @@ int MovieFolder::SearchMovieFile()
 
         for(j=0; j<vecstrBuffer.size(); j++)                                                                /** Speichere gefundenes Codec in einen Vektor **/
         {
-            vecstrFoundMovieFiles.push_back(vecstrBuffer[j]);
+            StringTools::removeFileExtension(vecstrBuffer[j]);                                              // Dateiendung entfernen (z.B. '.avi'
+            vecstrFoundMovieFiles.push_back(vecstrBuffer[j]);                                               // Dateinamen in Vektor speichern
         }
     }
 
-    if(vecstrFoundMovieFiles.size() == 0)                                                                   // kein Codec im Filmordner gefunden
+    if(vecstrFoundMovieFiles.size() == 0)                                                                   /** Keine Videodateien gefunden **/
     {
         return 1;
     }
 
+
     size_t sztPos;
 
-    oConfigFile.getValue("multiple_files", strConfigValue);
-    StringTools::strToVec(strConfigValue, vecstrBuffer, ";");
+    oConfigFile.getValue("multiple_files", strConfigValue);                                                 // lies Namensgebung bei mehren Videodateien aus der config.ini
+    StringTools::strToVec(strConfigValue, vecstrBuffer, ";");                                               // Wandle string in Vektor um
+
 
     for(i=0; i<vecstrBuffer.size(); i++)
     {
-        this->strMovieFilename = StringTools::compareVecAttr(vecstrFoundMovieFiles);
+        this->strMovieFilename = StringTools::compareVecAttr(vecstrFoundMovieFiles);                        // Entferne Nummerierung der Videodateien (z.B. CD1, CD2, CD3)
 
-        sztPos = this->strMovieFilename.find(vecstrBuffer[i]);
+        sztPos = this->strMovieFilename.find(vecstrBuffer[i]);                                              // Entferne erweiterung (z.B. '_CD' bei 'Hangover_CD'
 
         if(sztPos != string::npos)
         {
@@ -109,32 +123,31 @@ int MovieFolder::SearchMovieFile()
     return 0;
 }
 
-
 int MovieFolder::SearchMovieCover()
 {
     string strModeCovername;
 
     ConfigFile oConfigFile;
 
-    oConfigFile.getValue("name_cover", strModeCovername);
+    oConfigFile.getValue("name_cover", strModeCovername);                                                   // Lies Namenskonvention aus der Configfile
 
-    if( strModeCovername == "0")
+    if( strModeCovername == "0" || this->strMovieFilename == "VIDEO_TS")                                    /** Filmcover wird pauschal "folder.jpg" genannt **/
     {
         this->strMovieCovername = "folder.jpg";
     }
 
-    else if ( strModeCovername == "1")
+    else if ( strModeCovername == "1")                                                                      /** Filmcover wird nach "[Filmdatei]-poster.jpg" benannt **/
     {
-        this->strMovieCovername = this->strMovieFilename + ".jpg";
+        this->strMovieCovername = this->strMovieFilename + "-poster.jpg";
     }
 
 
-    if( FileOperations::fileExists(this->strMovieFolderPath + "\\" + this->strMovieCovername) )
+    if( FileOperations::fileExists(this->strMovieFolderPath + "\\" + this->strMovieCovername) )             /** Filmcover im Ordner vorhanden **/
     {
       return 0;
     }
 
-    else
+    else                                                                                                    /** Filmcover nicht vorhanden **/
     {
         this->strMovieCovername = "";
         return 1;
@@ -142,7 +155,43 @@ int MovieFolder::SearchMovieCover()
 
 }
 
+int MovieFolder::SearchNfoFile()
+{
+    string strModeNfo;
+    ConfigFile oConfigfile;
+
+    oConfigfile.getValue("name_nfo", strModeNfo);
+
+    if( strModeNfo == "0" || this->strMovieFilename == "VIDEO_TS")                                    /** Filmcover wird pauschal "folder.jpg" genannt **/
+    {
+        this->strNfoFilename = "movie.nfo";
+    }
+
+    else if ( strModeNfo == "1")                                                                      /** Filmcover wird nach "[Filmdatei]-poster.jpg" benannt **/
+    {
+        this->strNfoFilename = this->strMovieFilename + ".nfo";
+    }
 
 
+    if( FileOperations::fileExists(this->strMovieFolderPath + "\\" + this->strNfoFilename) )             /** Filmcover im Ordner vorhanden **/
+    {
+      return 0;
+    }
+
+    else                                                                                                    /** Filmcover nicht vorhanden **/
+    {
+        this->strNfoFilename = "";
+        return 1;
+    }
+
+}
+
+void MovieFolder::print()
+{
+    cout << "Pfad:        " << getMovieFolderPath() << endl;
+    cout << "MovieFile:   " << getMovieFilename() << endl;
+    cout << "CoverName:   " << getMovieCovername() << endl;
+    cout << "NfoFilename: " << getNfoFilename() << endl;
+}
 
 

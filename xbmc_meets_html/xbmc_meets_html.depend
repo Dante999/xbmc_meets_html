@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1430224105 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
+1430933472 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\main.cpp
 	<iostream>
 	<string>
 	"include\ConfigFile.h"
@@ -20,18 +20,19 @@
 	"..\include\ConfigFile.h"
 	"..\include\ConvertASCII.h"
 
-1430218993 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
-	"..\\include\ConvertASCII.h"
+1430929224 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\nfofile.cpp
 	<iostream>
 	<vector>
 	<string>
 	<cstring>
+	"..\\include\NfoFile.h"
+	"..\\include\ConvertASCII.h"
 
-1430226196 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
-	"..\include\ConvertASCII.h"
+1430228331 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\convertascii.cpp
 	<string>
 	<vector>
 	<iostream>
+	"..\include\ConvertASCII.h"
 
 1428583988 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\convertascii.h
 	<string>
@@ -41,36 +42,39 @@
 	<string>
 	<vector>
 
-1429714398 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\nfofile.h
+1430930121 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\nfofile.h
 	<string>
 	<fstream>
 	<vector>
+	"MovieFolder.h"
 
-1429805639 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\stringtools.cpp
+1430932639 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\stringtools.cpp
 	<string>
 	<vector>
 	<iostream>
 	<windows.h>
+	"..\include\StringTools.h"
 
-1429797226 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\stringtools.h
+1430932547 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\stringtools.h
 	<vector>
 	<string>
 	<windows.h>
 
-1430223621 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\fileoperations.cpp
+1430228314 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\fileoperations.cpp
 	<string>
 	<vector>
 	<iostream>
 	<cstring>
 	<windows.h>
 	<sys/stat.h>
+	"..\include\FileOperations.h"
 	"..\include\StringTools.h"
 
 1430223579 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\fileoperations.h
 	<string>
 	<vector>
 
-1430224883 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\moviefolder.cpp
+1430933021 source:e:\codeblocks\xbmc_meets_html\xbmc_meets_html\src\moviefolder.cpp
 	<string>
 	<vector>
 	<iostream>
@@ -79,5 +83,13 @@
 	"..\include\StringTools.h"
 	"..\include\FileOperations.h"
 
-1430223363 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\moviefolder.h
+1430933489 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\include\moviefolder.h
+
+1430930121 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\\include\nfofile.h
+	<string>
+	<fstream>
+	<vector>
+	"MovieFolder.h"
+
+1430933489 e:\codeblocks\xbmc_meets_html\xbmc_meets_html\\include\moviefolder.h
 

@@ -29,7 +29,6 @@ StringTools::~StringTools()
     //dtor
 }
 
-
 int StringTools::vecToStr ( vector <string> vecstrInVector, string &strOutString, string strConnector)
 {
     unsigned int uiVecSize = 0;
@@ -133,3 +132,26 @@ string StringTools::compareVecAttr(vector <string> &vecstrTmp)
 
     return strBuffer;
 }
+
+int StringTools::removeFileExtension(string &strFileName)
+{
+    size_t sztPos = 0;
+
+    sztPos = strFileName.find_last_of(".");
+
+    if(sztPos != string::npos)
+    {
+        strFileName.erase(sztPos);
+    }
+
+    else
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+
+
