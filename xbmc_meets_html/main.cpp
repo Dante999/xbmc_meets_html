@@ -7,6 +7,7 @@
 #include "include\StringTools.h"
 #include "include\FileOperations.h"
 #include "include\MovieFolder.h"
+#include "include\MovieHtml.h"
 
 
 using namespace std;
@@ -20,13 +21,10 @@ int main()
 
 
     string strBuffer;
-    vector <string> vecstrBuffer;
-    vector <string> vecstrBuffer2;
+    vector <string> vecstrFoldername;
 
 
-    //MovieFolder *cMovieFolder = new MovieFolder("E:\\Sandbox\\test_movies\\Fight Club (1999) [720 {h264}] [aac {2}]");
 
-    //cMovieFolder->SearchMovieFile();
     string path = "E:\\Sandbox\\test_movies";
 
 
@@ -35,35 +33,22 @@ int main()
 
 #if 1
 
-    FileOperations::listFolders(path, vecstrBuffer);
+    FileOperations::listFolders(path, vecstrFoldername);
 
     unsigned int i;
-    for( i=0; i<vecstrBuffer.size(); i++)
+    for( i=0; i<vecstrFoldername.size(); i++)
     {
-        cout << endl << endl << i << ". Pfad: " << vecstrBuffer[i] << endl;
+        cout << endl << endl << i << ". Pfad: " << vecstrFoldername[i] << endl;
 
-        MovieFolder oMovieFolder(path + "\\" + vecstrBuffer[i]);
+        MovieFolder oMovieFolder(path + "\\" + vecstrFoldername[i]);
         oMovieFolder.print();
+
+        MovieHtml oMovieHtml(oMovieFolder.getMovieFolderPath(), oMovieFolder.getMovieFolderPath() + "\\" + oMovieFolder.getNfoFilename());
 
     }
 #endif
 
 
-#if 0
-    ConfigFile  *cConfigFile = new ConfigFile();
-    NfoFile     *cNfoFile = new NfoFile("TestFiles\\movie.nfo");
-
-
-    cConfigFile->testConfig();
-    cNfoFile->testNfo();
-
-    // TODO : ConvertASCII in gemeinsame Klasse zur verarbeitung von strings und vectoren umbauen
-
-
-    FileOperations::ListFolders("E:\\Sandbox\\test_movies", vecstrBuffer);
-    StringTools::printVecstr(vecstrBuffer);
-
-#endif
     cout << endl << endl;
     cout << "Ende Main()" << endl;
 

@@ -14,8 +14,8 @@
  #include <string>
  #include <cstring>
 
- #include "..\\include\NfoFile.h"
- #include "..\\include\ConvertASCII.h"
+ #include "..\include\NfoFile.h"
+ #include "..\include\ConvertASCII.h"
 
 
 

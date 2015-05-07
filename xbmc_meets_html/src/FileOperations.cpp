@@ -239,4 +239,106 @@ bool FileOperations::fileExists(const string &filename)
     return false;
 }
 
+int FileOperations::copyFile(const string strSourceFilepath, const string strDestinationFilepath, bool overwrite )
+{
+    if(fileExists(strSourceFilepath) == false)
+    {
+        return -1;
+    }
+
+    LPCSTR lpcstrSource = StringTools::strToLpcstr(strSourceFilepath);
+    LPCSTR lpcstrDestination = StringTools::strToLpcstr(strDestinationFilepath);
+
+    if( overwrite == true)
+    {
+        CopyFile(lpcstrSource, lpcstrDestination, false);
+    }
+    else
+    {
+        CopyFile(lpcstrSource, lpcstrDestination, true);
+    }
+
+    return 0;
+}
+
+/** \brief  kopiert rekursiv alle Dateien
+ *
+ * \param   source          Quellpfad
+ * \param   destination     Zielpfad
+ * \param   overwrite       Vorhandene Dateien überschreiben (true = ja; false = nein)
+ *
+ * \return  0               bei beenden der Funktion
+ *          -1              Pfad ungültig
+ *
+ */
+int FileOperations::copyFiles(const string source, const string destination, bool overwrite)
+{
+
+    string current_source_folder;                                                           // aktueller Pfad zum Quellordner
+    string current_destination_folder;                                                      // aktueller Pfad zum Zielordner
+    string folder_name;                                                                     // Name des gefundenen Ordners
+    string file_name;                                                                       // Name der gefundenen Datei
+    string buffer;                                                                          // Pufferspeicher
+
+    WIN32_FIND_DATA FData;
+    BOOL MoreFiles = FALSE;
+
+    current_source_folder = source + "\\*.*";
+    current_destination_folder = destination;                                               // Pfad um Suche erweitern
+
+    LPCSTR lpcstr_source = StringTools::strToLpcstr(current_source_folder);                 // Convertieren str -> LPCSTR
+    HANDLE hSearch = FindFirstFile(lpcstr_source,&FData);                                   // Suchpfad angeben
+
+    if (hSearch == INVALID_HANDLE_VALUE) return -1;                                         // Falls ungueltige Angabe, Funktion beenden
+
+    do
+    {
+
+        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                             // Ordner gefunden
+        {
+            folder_name = FData.cFileName;                                                  // Schreibe Ordnernamen in String
+
+            if( (folder_name != ".") && (folder_name != "..") )                             // Ordnernamen "." und ".." aussortieren
+            {
+                current_destination_folder  = destination + "\\" + folder_name;             // Zielpfad aktualisieren
+                current_source_folder       = source + "\\" + folder_name;                  // Quellpfad aktualisieren
+
+                LPCSTR lpcstr_dest = StringTools::strToLpcstr(current_destination_folder);  // Wandle string in LPCSTR um
+                CreateDirectory(lpcstr_dest, NULL);                                         // Erstelle neuen Ordner an Ziel
+
+                copyFiles(current_source_folder, current_destination_folder, true);         // Rufe Funktion rekursiv auf
+            }
+        }
+
+        else                                                                                // Datei gefunden
+        {
+            file_name = FData.cFileName;
+
+            if( file_name != "Thumbs.db")                                                   // Thumbs.db aussortieren
+            {
+                buffer = source + "\\" + file_name;
+                LPCSTR lpcstr_file_source = StringTools::strToLpcstr(buffer) ;              // Quelldatei in LPCSTR umwandeln
+
+                buffer = destination + "\\" + file_name;
+                LPCSTR lpcstr_file_destination = StringTools::strToLpcstr(buffer);         // Zieldatei in LPCSTR umwandeln
+
+                CopyFile( lpcstr_file_source, lpcstr_file_destination, false);              // Datei kopieren
+            }
+
+
+        }
+
+        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nächste Datei
+
+    } while (MoreFiles);
+
+
+    FindClose(hSearch);
+
+    return 0;
+}
+
+
+
+
 
