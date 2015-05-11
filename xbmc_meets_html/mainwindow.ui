@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushButton_Start">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -27,7 +27,7 @@
      <string>Start</string>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="treeWidget">
+   <widget class="QTreeWidget" name="treeWidget_Filmordner">
     <property name="geometry">
      <rect>
       <x>15</x>
@@ -38,7 +38,7 @@
     </property>
     <column>
      <property name="text">
-      <string>Pfad</string>
+      <string>Ordner</string>
      </property>
     </column>
     <column>
@@ -70,12 +70,35 @@
      <number>24</number>
     </property>
    </widget>
-   <widget class="QSplitter" name="splitter_2">
+   <widget class="QSplitter" name="splitter_3">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>170</y>
+      <width>191</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QCheckBox" name="checkBox_HTMLMovie">
+     <property name="text">
+      <string>HTML Datei im Filmordner erzeugen</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_HTMLIndex">
+     <property name="text">
+      <string>HTMLFilmübersicht erzeugen</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QSplitter" name="splitter">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>274</width>
+      <width>461</width>
       <height>20</height>
      </rect>
     </property>
@@ -98,12 +121,12 @@
      </property>
     </widget>
    </widget>
-   <widget class="QSplitter" name="splitter">
+   <widget class="QSplitter" name="splitter_2">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>60</y>
-      <width>280</width>
+      <width>461</width>
       <height>20</height>
      </rect>
     </property>
@@ -126,29 +149,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QSplitter" name="splitter_3">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>170</y>
-      <width>191</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="text">
-      <string>HTML Datei im Filmordner erzeugen</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBox_2">
-     <property name="text">
-      <string>HTMLFilmübersicht erzeugen</string>
-     </property>
-    </widget>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -163,6 +163,7 @@
     <property name="title">
      <string>Einstellungen</string>
     </property>
+    <addaction name="actionEinstellungen"/>
    </widget>
    <widget class="QMenu" name="menuInfo">
     <property name="title">
@@ -181,6 +182,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionEinstellungen">
+   <property name="text">
+    <string>Einstellungen</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

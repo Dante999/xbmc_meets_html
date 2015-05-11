@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     moviefolder.cpp \
     moviehtml.cpp \
     nfofile.cpp \
-    stringtools.cpp
+    stringtools.cpp \
+    dialog_config.cpp
 
 HEADERS  += mainwindow.h \
     configfile.h \
@@ -27,6 +28,8 @@ HEADERS  += mainwindow.h \
     moviefolder.h \
     moviehtml.h \
     nfofile.h \
-    stringtools.h
+    stringtools.h \
+    dialog_config.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog_config.ui

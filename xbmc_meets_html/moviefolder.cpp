@@ -26,8 +26,7 @@ using namespace std;
 
 MovieFolder::MovieFolder( string strMovieFolderPath)
 {
-    this->strMovieFolderPath = strMovieFolderPath;
-
+    this->strMovieFolderPath = strMovieFolderPath;    
     SearchMovieFile();
     SearchMovieCover();
     SearchNfoFile();

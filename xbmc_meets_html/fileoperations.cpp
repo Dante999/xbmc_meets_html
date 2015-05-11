@@ -20,6 +20,7 @@
 #include "fileoperations.h"
 #include "stringtools.h"
 
+
 using namespace std;
 
 
@@ -64,7 +65,8 @@ int FileOperations::listFolders( string strFolderPath, vector <string> &vecstrCo
 
     strFolderPath = strFolderPath + "\\*.*";                                    // Passe Verzeichnis an
 
-    LPCWSTR lpcwstrPath = (LPCWSTR) strFolderPath.c_str();
+    wstring wstrFolderPath(strFolderPath.begin(), strFolderPath.end());
+    LPCWSTR lpcwstrPath =  wstrFolderPath.c_str();
 
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);
 
@@ -129,8 +131,9 @@ int FileOperations::findFile( const string strPath, const string strSearchParam,
 
     strFolderPath = strPath + "\\*.*";                                          // Passe Verzeichnis an
 
-    LPCWSTR lpcwstrPath = (LPCWSTR) strFolderPath.c_str();
-
+    wstring wstrFolderPath(strFolderPath.begin(), strFolderPath.end());
+    LPCWSTR lpcwstrPath =  wstrFolderPath.c_str();
+    cout << "Pfad: " << lpcwstrPath << endl;
 
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);
 
@@ -195,7 +198,11 @@ int FileOperations::findFolder( const string strPath, const string strSearchPara
 
     strFolderPath = strPath + "\\*.*";
 
-    LPCWSTR lpcwstrPath = (LPCWSTR) strFolderPath.c_str();
+    wstring wstrFolderPath(strFolderPath.begin(), strFolderPath.end());
+    LPCWSTR lpcwstrPath =  wstrFolderPath.c_str();
+
+    //LPCWSTR lpcwstrPath = (LPCWSTR) strFolderPath.c_str();
+
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);                                     // Suchpfad angeben
 
     if (hSearch == INVALID_HANDLE_VALUE)                                                    /** Ungültiger Pfad angegeben **/
@@ -235,7 +242,7 @@ int FileOperations::findFolder( const string strPath, const string strSearchPara
 }
 
 
-/** \brief  Überprüft, ob eine Datei existiert
+/** \brief  �berpr�ft, ob eine Datei existiert
  *
  * \param   filename    Name der Datei die überprüft werden soll
  *
@@ -255,6 +262,7 @@ bool FileOperations::fileExists(const string &filename)
     return false;
 }
 
+
 int FileOperations::copyFile(const string strSourceFilepath, const string strDestinationFilepath, bool overwrite )
 {
     if(fileExists(strSourceFilepath) == false)
@@ -262,16 +270,33 @@ int FileOperations::copyFile(const string strSourceFilepath, const string strDes
         return -1;
     }
 
-    LPCWSTR lpcwstrSource = (LPCWSTR) strSourceFilepath.c_str();
-    LPCWSTR lpcwstrDestination = (LPCWSTR) strDestinationFilepath.c_str();
+    wstring wstrSourceFilepath(strSourceFilepath.begin(), strSourceFilepath.end());
+    wstring wstrDestinationFilepath(strDestinationFilepath.begin(), strDestinationFilepath.end());
+
+    LPCWSTR lpcwstrSource =  wstrSourceFilepath.c_str();
+    LPCWSTR lpcwstrDestination = wstrDestinationFilepath.c_str();
 
     if( overwrite == true)
     {
-        CopyFile(lpcwstrSource, lpcwstrDestination, false);
+        if(CopyFile(lpcwstrSource, lpcwstrDestination, false) == 0)
+        {
+            cout << "__________________________________" << endl;
+            cout << "Kopieren fehlgeschlagen!" << endl;
+            cout << strSourceFilepath << " -> " << strDestinationFilepath << endl;
+            cout << "Error: " << GetLastError() << endl;
+            cout << "----------------------------------" << endl;
+        }
     }
     else
     {
-        CopyFile(lpcwstrSource, lpcwstrDestination, true);
+        if(CopyFile(lpcwstrSource, lpcwstrDestination, true) == 0);
+        {
+            cout << "__________________________________" << endl;
+            cout << "Kopieren fehlgeschlagen!" << endl;
+            cout << strSourceFilepath << " -> " << strDestinationFilepath << endl;
+            cout << "Error: " << GetLastError() << endl;
+            cout << "----------------------------------" << endl;
+        }
     }
 
     return 0;
@@ -302,7 +327,10 @@ int FileOperations::copyFiles(const string source, const string destination, boo
     current_source_folder = source + "\\*.*";
     current_destination_folder = destination;                                               // Pfad um Suche erweitern
 
-    LPCWSTR lpcwstr_source = (LPCWSTR) current_source_folder.c_str();                 // Convertieren str -> LPCSTR
+    wstring wstrCurrentSourceFolder(current_source_folder.begin(), current_source_folder.end());
+    LPCWSTR lpcwstr_source =  wstrCurrentSourceFolder.c_str();
+
+    //LPCWSTR lpcwstr_source = (LPCWSTR) current_source_folder.c_str();                 // Convertieren str -> LPCSTR
     HANDLE hSearch = FindFirstFile(lpcwstr_source,&FData);                                   // Suchpfad angeben
 
     if (hSearch == INVALID_HANDLE_VALUE) return -1;                                         // Falls ungueltige Angabe, Funktion beenden
@@ -344,7 +372,7 @@ int FileOperations::copyFiles(const string source, const string destination, boo
 
         }
 
-        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nächste Datei
+        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche n�chste Datei
 
     } while (MoreFiles);
 

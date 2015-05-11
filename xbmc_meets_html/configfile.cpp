@@ -15,6 +15,13 @@
  #include <vector>
 
  #include "configfile.h"
+ #include "windows.h"
+ #include <sys/stat.h>
+
+#include "fileoperations.h"
+
+ #define PATH_TO_CONFIG "C:\\Users\\Dante999\\Documents\\GitHub\\xbmc_meets_html\\xbmc_meets_html\\config.ini"
+ #define PATH_TO_CACHE "C:\\Users\\Dante999\\Documents\\GitHub\\xbmc_meets_html\\xbmc_meets_html\\cache.txt"
 
 
  using namespace std;
@@ -30,7 +37,7 @@ ConfigFile::~ConfigFile()
     //dtor
 }
 
-/** \brief Ã–ffnen des Config Files
+/** \brief Öffnen des Config Files
  *
  * \param   none
  *
@@ -40,9 +47,9 @@ ConfigFile::~ConfigFile()
  */
 int ConfigFile::openFile(void)
 {
-    this->ifstrmConfigFile.open("config.ini");                                  // Datei Ã¶ffnen
+    this->fstrmConfigFile.open(PATH_TO_CONFIG);                                  // Datei Ã¶ffnen
 
-    if( this->ifstrmConfigFile == 0)                                            /** Datei konnte nicht geÃ¶ffnet werden **/
+    if( this->fstrmConfigFile == 0)                                            /** Datei konnte nicht geÃ¶ffnet werden **/
     {
         cout << endl << "Keine config.ini vorhanden!" << endl;
         return 1;
@@ -52,7 +59,7 @@ int ConfigFile::openFile(void)
 }
 
 
-/** \brief SchlieÃŸen des Config Files
+/** \brief Schließen des Config Files
  *
  * \param   none
  *
@@ -62,9 +69,9 @@ int ConfigFile::openFile(void)
  */
 int ConfigFile::closeFile(void)
 {
-    this->ifstrmConfigFile.close();                                             // SchlieÃŸe Datei
+    this->fstrmConfigFile.close();                                             // SchlieÃŸe Datei
 
-    if( this->ifstrmConfigFile.is_open() == true)                               /** Datei immer noch geÃ¶ffnet **/
+    if( this->fstrmConfigFile.is_open() == true)                               /** Datei immer noch geÃ¶ffnet **/
     {
         cout << endl;
         cout << "config.ini konnte nicht geschlossen werden!" << endl;
@@ -97,7 +104,7 @@ int ConfigFile::getValue(string strParameter, string &strValue)
 
     if ( openFile() != 0) return 1;                                             // config.ini Ã¶ffnen
 
-    while(getline(this->ifstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
+    while(getline(this->fstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
     {
       if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
       {
@@ -127,13 +134,53 @@ int ConfigFile::getValue(string strParameter, string &strValue)
     return 0;
 }
 
+int ConfigFile::setValue(string strParameter, string strValue)
+{
+    string strBuffer;
+    size_t sztStartPos;
+    openFile();
 
-/** \brief  ÃœberprÃ¼fen der config.ini
+        //fstream original_file (file_path.c_str(), ios::in | ios::binary);
+        fstream buffer_file;
+        buffer_file.open(PATH_TO_CACHE, ios::out);
+
+        while(getline(this->fstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
+        {
+          if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
+          {
+             if(strBuffer.find(strParameter) != string::npos)                       /** Parameter wurde gefunden **/
+             {
+                sztStartPos = strBuffer.find_first_of('"');                         // Position des ersten '"' finden
+                strBuffer.erase(sztStartPos+1);                                // lösche alles bis zum ersten '"' (falls diese erwünscht sind, bis eine Position davor)
+
+                strBuffer = strBuffer + strValue + "\"";
+             }      // Suchwort gefunden
+          }         // kein # gefunden
+
+
+            buffer_file << strBuffer << endl;
+        }           // alle Zeilen einlesen
+
+        closeFile();
+        buffer_file.close();
+
+        FileOperations::copyFile(PATH_TO_CACHE, PATH_TO_CONFIG, true);
+
+        // Dateien kopieren
+
+
+    return 0;
+
+
+
+}
+
+/** \brief  Überprüfen der config.ini
  *
  * \param   none
  *
  * \return  0   kein Fehler vorhanden
- *          1   Es sind fehlende EintrÃ¤ge in der config.ini vorhanden
+ *          1   Es sind fehlende Einträge in der config.ini vorhanden
  *
  */
 int ConfigFile::testConfig(void)
@@ -161,8 +208,8 @@ int ConfigFile::testConfig(void)
 
     }
 
-    cout << endl << "ÃœberprÃ¼fung abgeschlossen!" << endl;
-    cout << "Fehlende EintrÃ¤ge: " << iMissingEntry << endl;
+    cout << endl << "Überprüfung abgeschlossen!" << endl;
+    cout << "Fehlende Einträge: " << iMissingEntry << endl;
     cout << "------------------------------------------------------------------------" << endl << endl;
 
     if(iMissingEntry != 0) return 1;
