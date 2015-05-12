@@ -6,133 +6,138 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>541</width>
-    <height>257</height>
+    <width>507</width>
+    <height>185</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>220</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QSplitter" name="splitter_cover">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>147</width>
-     <height>47</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-   <widget class="QLabel" name="label_cover_headline">
-    <property name="text">
-     <string>Namensgebung des Filmcovers</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_cover_0">
-    <property name="text">
-     <string>folder.jpg</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_cover_1">
-    <property name="text">
-     <string>[Filmdatei]-poster.jpg</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QSplitter" name="splitter_nfo">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>20</y>
-     <width>140</width>
-     <height>47</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-   <widget class="QLabel" name="label_nfo_headline">
-    <property name="text">
-     <string>Namensgebung der nfo Datei</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_nfo_0">
-    <property name="text">
-     <string>movie.nfo</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_nfo_1">
-    <property name="text">
-     <string>[Filmdatei].nfo</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QSplitter" name="splitter_index">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>120</y>
-     <width>139</width>
-     <height>53</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-   <widget class="QLabel" name="label_index_headline">
-    <property name="text">
-     <string>Einstellungen HTML Filmindex</string>
-    </property>
-   </widget>
-   <widget class="QSplitter" name="splitter_cover_line">
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <widget class="QLabel" name="label_cover_line">
-     <property name="text">
-      <string>Cover pro Zeile</string>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="maximumSize">
+      <size>
+       <width>160</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Namensgebung der nfo Datei</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButton_nfo_0">
+        <property name="text">
+         <string>movie.nfo</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioButton_nfo_1">
+        <property name="text">
+         <string>[Filmdatei].nfo</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup_2</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="maximumSize">
+      <size>
+       <width>160</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Einstellungen HTML Filmindex</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_cover_line">
+        <property name="text">
+         <string>Cover pro Zeile</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBox_cover_line">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_cover_column">
+        <property name="text">
+         <string>Cover pro Spalte</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_cover_column">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="maximumSize">
+      <size>
+       <width>160</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Namensgebung des Filmcover</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButton_cover_0">
+        <property name="text">
+         <string>folder.jpg</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioButton_cover_1">
+        <property name="text">
+         <string>[Filmdatei]-poster.jpg</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_cover_line">
-     <property name="minimum">
-      <number>1</number>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QSplitter" name="splitter_cover_column">
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <widget class="QLabel" name="label_cover_column">
-     <property name="text">
-      <string>Cover pro Spalte</string>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="spinBox_cover_column">
-     <property name="minimum">
-      <number>1</number>
-     </property>
-    </widget>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>
@@ -169,4 +174,8 @@
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>

@@ -15,100 +15,125 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpinBox>
-#include <QtWidgets/QSplitter>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Dialog_Config
 {
 public:
-    QDialogButtonBox *buttonBox;
-    QSplitter *splitter_cover;
-    QLabel *label_cover_headline;
-    QRadioButton *radioButton_cover_0;
-    QRadioButton *radioButton_cover_1;
-    QSplitter *splitter_nfo;
-    QLabel *label_nfo_headline;
+    QGridLayout *gridLayout_4;
+    QGroupBox *groupBox_2;
+    QGridLayout *gridLayout_2;
     QRadioButton *radioButton_nfo_0;
     QRadioButton *radioButton_nfo_1;
-    QSplitter *splitter_index;
-    QLabel *label_index_headline;
-    QSplitter *splitter_cover_line;
+    QGroupBox *groupBox_3;
+    QGridLayout *gridLayout;
     QLabel *label_cover_line;
     QSpinBox *spinBox_cover_line;
-    QSplitter *splitter_cover_column;
     QLabel *label_cover_column;
     QSpinBox *spinBox_cover_column;
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_3;
+    QRadioButton *radioButton_cover_0;
+    QRadioButton *radioButton_cover_1;
+    QDialogButtonBox *buttonBox;
+    QButtonGroup *buttonGroup;
+    QButtonGroup *buttonGroup_2;
 
     void setupUi(QDialog *Dialog_Config)
     {
         if (Dialog_Config->objectName().isEmpty())
             Dialog_Config->setObjectName(QStringLiteral("Dialog_Config"));
-        Dialog_Config->resize(541, 257);
-        buttonBox = new QDialogButtonBox(Dialog_Config);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(160, 220, 341, 32));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
-        splitter_cover = new QSplitter(Dialog_Config);
-        splitter_cover->setObjectName(QStringLiteral("splitter_cover"));
-        splitter_cover->setGeometry(QRect(20, 20, 147, 47));
-        splitter_cover->setOrientation(Qt::Vertical);
-        label_cover_headline = new QLabel(splitter_cover);
-        label_cover_headline->setObjectName(QStringLiteral("label_cover_headline"));
-        splitter_cover->addWidget(label_cover_headline);
-        radioButton_cover_0 = new QRadioButton(splitter_cover);
-        radioButton_cover_0->setObjectName(QStringLiteral("radioButton_cover_0"));
-        splitter_cover->addWidget(radioButton_cover_0);
-        radioButton_cover_1 = new QRadioButton(splitter_cover);
-        radioButton_cover_1->setObjectName(QStringLiteral("radioButton_cover_1"));
-        splitter_cover->addWidget(radioButton_cover_1);
-        splitter_nfo = new QSplitter(Dialog_Config);
-        splitter_nfo->setObjectName(QStringLiteral("splitter_nfo"));
-        splitter_nfo->setGeometry(QRect(220, 20, 140, 47));
-        splitter_nfo->setOrientation(Qt::Vertical);
-        label_nfo_headline = new QLabel(splitter_nfo);
-        label_nfo_headline->setObjectName(QStringLiteral("label_nfo_headline"));
-        splitter_nfo->addWidget(label_nfo_headline);
-        radioButton_nfo_0 = new QRadioButton(splitter_nfo);
+        Dialog_Config->resize(507, 185);
+        gridLayout_4 = new QGridLayout(Dialog_Config);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        groupBox_2 = new QGroupBox(Dialog_Config);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setMaximumSize(QSize(160, 80));
+        gridLayout_2 = new QGridLayout(groupBox_2);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        radioButton_nfo_0 = new QRadioButton(groupBox_2);
+        buttonGroup_2 = new QButtonGroup(Dialog_Config);
+        buttonGroup_2->setObjectName(QStringLiteral("buttonGroup_2"));
+        buttonGroup_2->addButton(radioButton_nfo_0);
         radioButton_nfo_0->setObjectName(QStringLiteral("radioButton_nfo_0"));
-        splitter_nfo->addWidget(radioButton_nfo_0);
-        radioButton_nfo_1 = new QRadioButton(splitter_nfo);
+
+        gridLayout_2->addWidget(radioButton_nfo_0, 0, 0, 1, 1);
+
+        radioButton_nfo_1 = new QRadioButton(groupBox_2);
+        buttonGroup_2->addButton(radioButton_nfo_1);
         radioButton_nfo_1->setObjectName(QStringLiteral("radioButton_nfo_1"));
-        splitter_nfo->addWidget(radioButton_nfo_1);
-        splitter_index = new QSplitter(Dialog_Config);
-        splitter_index->setObjectName(QStringLiteral("splitter_index"));
-        splitter_index->setGeometry(QRect(30, 120, 139, 53));
-        splitter_index->setOrientation(Qt::Vertical);
-        label_index_headline = new QLabel(splitter_index);
-        label_index_headline->setObjectName(QStringLiteral("label_index_headline"));
-        splitter_index->addWidget(label_index_headline);
-        splitter_cover_line = new QSplitter(splitter_index);
-        splitter_cover_line->setObjectName(QStringLiteral("splitter_cover_line"));
-        splitter_cover_line->setOrientation(Qt::Horizontal);
-        label_cover_line = new QLabel(splitter_cover_line);
+
+        gridLayout_2->addWidget(radioButton_nfo_1, 1, 0, 1, 1);
+
+
+        gridLayout_4->addWidget(groupBox_2, 0, 0, 1, 1);
+
+        groupBox_3 = new QGroupBox(Dialog_Config);
+        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setMaximumSize(QSize(160, 80));
+        gridLayout = new QGridLayout(groupBox_3);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        label_cover_line = new QLabel(groupBox_3);
         label_cover_line->setObjectName(QStringLiteral("label_cover_line"));
-        splitter_cover_line->addWidget(label_cover_line);
-        spinBox_cover_line = new QSpinBox(splitter_cover_line);
+
+        gridLayout->addWidget(label_cover_line, 0, 0, 1, 1);
+
+        spinBox_cover_line = new QSpinBox(groupBox_3);
         spinBox_cover_line->setObjectName(QStringLiteral("spinBox_cover_line"));
         spinBox_cover_line->setMinimum(1);
-        splitter_cover_line->addWidget(spinBox_cover_line);
-        splitter_index->addWidget(splitter_cover_line);
-        splitter_cover_column = new QSplitter(splitter_index);
-        splitter_cover_column->setObjectName(QStringLiteral("splitter_cover_column"));
-        splitter_cover_column->setOrientation(Qt::Horizontal);
-        label_cover_column = new QLabel(splitter_cover_column);
+
+        gridLayout->addWidget(spinBox_cover_line, 0, 1, 1, 1);
+
+        label_cover_column = new QLabel(groupBox_3);
         label_cover_column->setObjectName(QStringLiteral("label_cover_column"));
-        splitter_cover_column->addWidget(label_cover_column);
-        spinBox_cover_column = new QSpinBox(splitter_cover_column);
+
+        gridLayout->addWidget(label_cover_column, 1, 0, 1, 1);
+
+        spinBox_cover_column = new QSpinBox(groupBox_3);
         spinBox_cover_column->setObjectName(QStringLiteral("spinBox_cover_column"));
         spinBox_cover_column->setMinimum(1);
-        splitter_cover_column->addWidget(spinBox_cover_column);
-        splitter_index->addWidget(splitter_cover_column);
+
+        gridLayout->addWidget(spinBox_cover_column, 1, 1, 1, 1);
+
+
+        gridLayout_4->addWidget(groupBox_3, 0, 2, 1, 1);
+
+        groupBox = new QGroupBox(Dialog_Config);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setMaximumSize(QSize(160, 80));
+        gridLayout_3 = new QGridLayout(groupBox);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        radioButton_cover_0 = new QRadioButton(groupBox);
+        buttonGroup = new QButtonGroup(Dialog_Config);
+        buttonGroup->setObjectName(QStringLiteral("buttonGroup"));
+        buttonGroup->addButton(radioButton_cover_0);
+        radioButton_cover_0->setObjectName(QStringLiteral("radioButton_cover_0"));
+
+        gridLayout_3->addWidget(radioButton_cover_0, 0, 0, 1, 1);
+
+        radioButton_cover_1 = new QRadioButton(groupBox);
+        buttonGroup->addButton(radioButton_cover_1);
+        radioButton_cover_1->setObjectName(QStringLiteral("radioButton_cover_1"));
+
+        gridLayout_3->addWidget(radioButton_cover_1, 1, 0, 1, 1);
+
+
+        gridLayout_4->addWidget(groupBox, 0, 1, 1, 1);
+
+        buttonBox = new QDialogButtonBox(Dialog_Config);
+        buttonBox->setObjectName(QStringLiteral("buttonBox"));
+        buttonBox->setOrientation(Qt::Horizontal);
+        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+
+        gridLayout_4->addWidget(buttonBox, 1, 1, 1, 1);
+
 
         retranslateUi(Dialog_Config);
         QObject::connect(buttonBox, SIGNAL(accepted()), Dialog_Config, SLOT(accept()));
@@ -120,15 +145,15 @@ public:
     void retranslateUi(QDialog *Dialog_Config)
     {
         Dialog_Config->setWindowTitle(QApplication::translate("Dialog_Config", "Dialog", 0));
-        label_cover_headline->setText(QApplication::translate("Dialog_Config", "Namensgebung des Filmcovers", 0));
-        radioButton_cover_0->setText(QApplication::translate("Dialog_Config", "folder.jpg", 0));
-        radioButton_cover_1->setText(QApplication::translate("Dialog_Config", "[Filmdatei]-poster.jpg", 0));
-        label_nfo_headline->setText(QApplication::translate("Dialog_Config", "Namensgebung der nfo Datei", 0));
+        groupBox_2->setTitle(QApplication::translate("Dialog_Config", "Namensgebung der nfo Datei", 0));
         radioButton_nfo_0->setText(QApplication::translate("Dialog_Config", "movie.nfo", 0));
         radioButton_nfo_1->setText(QApplication::translate("Dialog_Config", "[Filmdatei].nfo", 0));
-        label_index_headline->setText(QApplication::translate("Dialog_Config", "Einstellungen HTML Filmindex", 0));
+        groupBox_3->setTitle(QApplication::translate("Dialog_Config", "Einstellungen HTML Filmindex", 0));
         label_cover_line->setText(QApplication::translate("Dialog_Config", "Cover pro Zeile", 0));
         label_cover_column->setText(QApplication::translate("Dialog_Config", "Cover pro Spalte", 0));
+        groupBox->setTitle(QApplication::translate("Dialog_Config", "Namensgebung des Filmcover", 0));
+        radioButton_cover_0->setText(QApplication::translate("Dialog_Config", "folder.jpg", 0));
+        radioButton_cover_1->setText(QApplication::translate("Dialog_Config", "[Filmdatei]-poster.jpg", 0));
     } // retranslateUi
 
 };

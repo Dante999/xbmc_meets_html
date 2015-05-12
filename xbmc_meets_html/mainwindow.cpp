@@ -15,6 +15,7 @@
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow)
 {
+    //ui->textBrowser_Commandline->append(">> Überprüfe Einstellungen...");
     if(FileOperations::fileExists(PATH_TO_CONFIG) == false)
     {
         QMessageBox msgBox;
@@ -28,7 +29,9 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     else
     {
         ui->setupUi(this);
+        ui->textBrowser_Commandline->append(">> config.ini vorhanden");
         initValuesFromConfig();
+
     }
 }
 
@@ -72,6 +75,7 @@ void MainWindow::on_checkBox_HTMLMovie_clicked()
     {
         oConfigFile.setValue(CFG_DO_MOVIE_HTML, "0");
     }
+    ui->textBrowser_Commandline->append(">> Einstellung gespeichert!");
 }
 
 void MainWindow::on_checkBox_HTMLIndex_clicked()
@@ -86,12 +90,14 @@ void MainWindow::on_checkBox_HTMLIndex_clicked()
     {
         oConfigFile.setValue(CFG_DO_INDEX_HTML, "0");
     }
+
+    ui->textBrowser_Commandline->append(">> Einstellung gespeichert!");
 }
 
 
 void MainWindow::on_pushButton_Start_clicked()
 {
-
+    ui->textBrowser_Commandline->append(">> Vorgang gestartet...");
 }
 
 void MainWindow::addTreeRoot(std::string folder, std::string movie, std::string cover, std::string nfo)
@@ -113,6 +119,18 @@ void MainWindow::on_actionEinstellungen_triggered()
     configWindow->show();
     configWindow->raise();
     configWindow->activateWindow();
+
+    int test = configWindow->exec();
+
+    if(test == 1)
+    {
+        ui->textBrowser_Commandline->append(">> Einstellungen gespeichert!");
+    }
+    else
+    {
+        ui->textBrowser_Commandline->append(">> Einstellungen verworfen!");
+    }
+
 }
 
 void MainWindow::on_lineEdit_moviepath_returnPressed()
@@ -153,4 +171,6 @@ void MainWindow::fillTreeWidget()
         MovieFolder oMovieFolder(strPathToMovies + "\\" + strvecMovieFolders[i]);
         addTreeRoot(strvecMovieFolders[i], oMovieFolder.getMovieFilename() , oMovieFolder.getMovieCovername(), oMovieFolder.getNfoFilename());
     }
+
+    ui->textBrowser_Commandline->append(">> Ordnerliste aktualisiert");
 }
