@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\configfile.o
+./debug\fileoperations.o
+./debug\moviefolder.o
+./debug\moviehtml.o
+./debug\nfofile.o
+./debug\stringtools.o
+./debug\dialog_config.o
+./debug\moc_mainwindow.o
+./debug\moc_dialog_config.o
+);

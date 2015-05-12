@@ -7,7 +7,7 @@
 ########## Allgemeine Einstellungen ##########
 
 # Pfad zu den Filmen (z.B. "C:\movies")
-path_movies = "neuer Pfad"
+path_movies = "Test"
 
 #Erstelle HTML Files in den Filmordnern
 do_movieHTML = "1"
@@ -23,7 +23,7 @@ do_indexHTML = "0"
 path_index = "E:\Sandbox\html_export"
 
 # Filmcover pro Zeile
-cover_row = "3"
+cover_line = "3"
  
 # Filmcover pro Spalte
 cover_column = "15"
@@ -34,20 +34,16 @@ cover_column = "15"
 # Name des Filmcovers
 # 0 = folder.jpg
 # 1 = [Name der Filmdatei]-poster.jpg (default)
-name_cover = "1"
+name_cover = "0"
 
 # Name der Nfo Datei
 # 0 = movie.nfo
 # 1 = [Name der Filmdatei].nfo
-name_nfo = "1"
+name_nfo = "0"
 
 # unterstütze Dateiendungen von Filmen (bei bedarf einfach erweitern)
-codecs=".avi .mp4 .mov .mkv .m2v .vob .mpg .mpeg .dir .ogv .dcr .fla .swf VIDEO_TS"
+codecs=".avi .mp4 .mov .mkv .m2v .vob .mpg .mpeg .dir .ogv .dcr .fla .swf .wmv VIDEO_TS"
 
 # Namenskonvention bei Mehrteilern (Mehrere Videodatein in einem Ordner)
 # zum Beispiel 'Avatar_CD1' und 'Avatar_CD2'
 multiple_files="_CD;_cd; CD; cd"
-
- kopiert...
-
- kopiert...

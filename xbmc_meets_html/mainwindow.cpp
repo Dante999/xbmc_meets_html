@@ -1,6 +1,8 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "configfile.h"
+
+#include <QMessageBox>
 
 #include "fileoperations.h"
 #include "stringtools.h"
@@ -11,12 +13,23 @@
 #include <vector>
 #include <iostream>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    setPath();    
+    if(FileOperations::fileExists(PATH_TO_CONFIG) == false)
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Keine Config.ini vorhanden!");
+        msgBox.setText("Es wurde keine config.ini gefunden!\n");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+    }
+
+    else
+    {
+        ui->setupUi(this);
+        initValuesFromConfig();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -25,27 +38,26 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::setPath()
+void MainWindow::initValuesFromConfig()
 {
     std::string strBuffer = "";
+    ConfigFile oConfigFile;    
 
-    ConfigFile oConfigFile;
-
-    oConfigFile.getValue("path_movies", strBuffer);
+    oConfigFile.getValue(CFG_PATH_MOVIES, strBuffer);
     ui->lineEdit_moviepath->setText(QString::fromStdString(strBuffer));
 
-    oConfigFile.getValue("path_index", strBuffer);
+    oConfigFile.getValue(CFG_PATH_INDEX, strBuffer);
     ui->lineEdit_indexpath->setText(QString::fromStdString(strBuffer));
 
-    oConfigFile.getValue("do_movieHTML", strBuffer);
+    oConfigFile.getValue(CFG_DO_MOVIE_HTML, strBuffer);
     if(strBuffer == "1") ui->checkBox_HTMLMovie->setChecked(true);
     else                ui->checkBox_HTMLMovie->setChecked(false);
 
-    oConfigFile.getValue("do_indexHTML", strBuffer);
+    oConfigFile.getValue(CFG_DO_INDEX_HTML, strBuffer);
     if(strBuffer == "1") ui->checkBox_HTMLIndex->setChecked(true);
     else                ui->checkBox_HTMLIndex->setChecked(false);
 
-
+    fillTreeWidget();
 }
 
 void MainWindow::on_checkBox_HTMLMovie_clicked()
@@ -79,29 +91,12 @@ void MainWindow::on_checkBox_HTMLIndex_clicked()
 
 void MainWindow::on_pushButton_Start_clicked()
 {
-    ConfigFile oConfigFile;
-    std::string strPathToMovies;
-    std::vector <std::string> strvecMovieFolders;
-
-
-    oConfigFile.getValue(CFG_PATH_MOVIES, strPathToMovies);
-
-    FileOperations::listFolders(strPathToMovies, strvecMovieFolders);
-
-    unsigned int i;
-
-    for(i=0; i<strvecMovieFolders.size(); i++)
-    {
-        MovieFolder oMovieFolder(strPathToMovies + "\\" + strvecMovieFolders[i]);
-        addTreeRoot(strvecMovieFolders[i], oMovieFolder.getMovieFilename() , oMovieFolder.getMovieCovername(), oMovieFolder.getNfoFilename());
-    }
 
 }
 
 void MainWindow::addTreeRoot(std::string folder, std::string movie, std::string cover, std::string nfo)
 {
-    QTreeWidgetItem *treeItem = new QTreeWidgetItem(ui->treeWidget_Filmordner);
-    std::cout << folder << std::endl;
+    QTreeWidgetItem *treeItem = new QTreeWidgetItem(ui->treeWidget_Filmordner);    
     treeItem->setText(0, QString::fromStdString(folder));
     treeItem->setText(1, QString::fromStdString(movie));
     treeItem->setText(2, QString::fromStdString(cover));
@@ -118,4 +113,44 @@ void MainWindow::on_actionEinstellungen_triggered()
     configWindow->show();
     configWindow->raise();
     configWindow->activateWindow();
+}
+
+void MainWindow::on_lineEdit_moviepath_returnPressed()
+{
+    ConfigFile oConfigFile;
+
+    QString qstrMoviePath = ui->lineEdit_moviepath->text();
+
+    oConfigFile.setValue(CFG_PATH_MOVIES, qstrMoviePath.toStdString());
+    fillTreeWidget();
+}
+
+void MainWindow::on_toolButton_clicked()
+{
+    ConfigFile oConfigFile;
+
+    QString qstrMoviePath = ui->lineEdit_moviepath->text();
+
+    oConfigFile.setValue(CFG_PATH_MOVIES, qstrMoviePath.toStdString());
+    fillTreeWidget();
+}
+
+void MainWindow::fillTreeWidget()
+{
+    ui->treeWidget_Filmordner->clear();
+    ConfigFile oConfigFile;
+    std::string strPathToMovies;
+    std::vector <std::string> strvecMovieFolders;
+
+    oConfigFile.getValue(CFG_PATH_MOVIES, strPathToMovies);
+
+    FileOperations::listFolders(strPathToMovies, strvecMovieFolders);
+
+    unsigned int i;
+
+    for(i=0; i<strvecMovieFolders.size(); i++)
+    {
+        MovieFolder oMovieFolder(strPathToMovies + "\\" + strvecMovieFolders[i]);
+        addTreeRoot(strvecMovieFolders[i], oMovieFolder.getMovieFilename() , oMovieFolder.getMovieCovername(), oMovieFolder.getNfoFilename());
+    }
 }

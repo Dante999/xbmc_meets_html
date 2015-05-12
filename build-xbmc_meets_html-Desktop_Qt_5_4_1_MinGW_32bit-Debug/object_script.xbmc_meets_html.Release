@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\configfile.o
+./release\fileoperations.o
+./release\moviefolder.o
+./release\moviehtml.o
+./release\nfofile.o
+./release\stringtools.o
+./release\dialog_config.o
+./release\moc_mainwindow.o
+./release\moc_dialog_config.o
+);

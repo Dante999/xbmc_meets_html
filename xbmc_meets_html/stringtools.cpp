@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------------
+﻿/*-----------------------------------------------------------------------------
  * Programm :
  * Thema    :
  * Autor    : Escher Matthias
@@ -226,6 +226,12 @@ int StringTools::removeFileExtension(string &strFileName)
     return 0;
 }
 
+LPCWSTR StringTools::strToLpcwstr(string strTmp)
+{
+    wstring wstrTmp(strTmp.begin(), strTmp.end());
+
+    return wstrTmp.c_str();
+}
 
 
 

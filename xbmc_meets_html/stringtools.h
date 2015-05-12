@@ -16,6 +16,7 @@ class StringTools
         static int strToVec (std::string strInString, std::vector <std::string> &vecstrOutVector, std::string strConnector);
         static std::string compareVecAttr(std::vector <std::string> &vecstrTmp);
         static int removeFileExtension(std::string &strFileName);
+        static LPCWSTR strToLpcwstr(std::string strTmp);
     protected:
     private:
 };

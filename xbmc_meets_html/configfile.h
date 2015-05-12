@@ -3,6 +3,9 @@
 
 #include <fstream>
 
+#define PATH_TO_CONFIG "config.ini"
+#define PATH_TO_CACHE "cache.txt"
+
 
 #define CFG_PATH_MOVIES "path_movies"
 #define CFG_PATH_INDEX "path_index"
@@ -26,14 +29,12 @@ class ConfigFile
         int getValue(std::string strParameter, std::string &strValue);
         int setValue(std::string strParameter, std::string strValue);
         bool checkIfExists(void);
-        int testConfig(void);
 
     protected:
     private:
         std::fstream fstrmConfigFile;
         int openFile(void);
-        int closeFile(void);
-        int iMissingEntry;
+        int closeFile(void);        
 };
 
 #endif // CONFIGFILE_H

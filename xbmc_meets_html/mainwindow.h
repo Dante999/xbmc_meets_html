@@ -17,17 +17,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void setPath();
-    void addTreeRoot(std::string folder, std::string movie, std::string cover, std::string nfo);
+
 
 private slots:
+    void initValuesFromConfig();
+    void addTreeRoot(std::string folder, std::string movie, std::string cover, std::string nfo);
+    void fillTreeWidget();
     void on_checkBox_HTMLMovie_clicked();
-
     void on_pushButton_Start_clicked();
-
     void on_checkBox_HTMLIndex_clicked();
-
     void on_actionEinstellungen_triggered();
+    void on_lineEdit_moviepath_returnPressed();
+    void on_toolButton_clicked();
 
 private:
     Ui::MainWindow *ui;

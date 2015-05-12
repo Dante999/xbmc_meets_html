@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------------
+﻿/*-----------------------------------------------------------------------------
  * Programm :
  * Thema    :
  * Autor    : Escher Matthias
@@ -17,18 +17,17 @@
  #include "configfile.h"
  #include "windows.h"
  #include <sys/stat.h>
+ #include <QMessageBox>
 
-#include "fileoperations.h"
+ #include "fileoperations.h"
+#include "stringtools.h"
 
- #define PATH_TO_CONFIG "C:\\Users\\Dante999\\Documents\\GitHub\\xbmc_meets_html\\xbmc_meets_html\\config.ini"
- #define PATH_TO_CACHE "C:\\Users\\Dante999\\Documents\\GitHub\\xbmc_meets_html\\xbmc_meets_html\\cache.txt"
-
+ #define QT_MESSAGEBOX 1
 
  using namespace std;
 
 ConfigFile::ConfigFile()
-{
-    this->iMissingEntry = 0;
+{    
     //ctor
 }
 
@@ -37,7 +36,7 @@ ConfigFile::~ConfigFile()
     //dtor
 }
 
-/** \brief �ffnen des Config Files
+/** \brief Öffnen des Config Files
  *
  * \param   none
  *
@@ -47,11 +46,19 @@ ConfigFile::~ConfigFile()
  */
 int ConfigFile::openFile(void)
 {
-    this->fstrmConfigFile.open(PATH_TO_CONFIG);                                  // Datei öffnen
+    this->fstrmConfigFile.open(PATH_TO_CONFIG);                                  // Datei öffnen    
 
     if( this->fstrmConfigFile == 0)                                            /** Datei konnte nicht geöffnet werden **/
     {
-        cout << endl << "Keine config.ini vorhanden!" << endl;
+        #if QT_MESSAGEBOX
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("config.ini");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("config.ini konnte nicht geöffnet werden!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+        #endif
+
         return 1;
     }
 
@@ -59,7 +66,7 @@ int ConfigFile::openFile(void)
 }
 
 
-/** \brief Schlie�en des Config Files
+/** \brief Schließen des Config Files
  *
  * \param   none
  *
@@ -68,14 +75,20 @@ int ConfigFile::openFile(void)
  *
  */
 int ConfigFile::closeFile(void)
-{
+{    
     this->fstrmConfigFile.close();                                             // Schließe Datei
 
     if( this->fstrmConfigFile.is_open() == true)                               /** Datei immer noch geöffnet **/
     {
-        cout << endl;
-        cout << "config.ini konnte nicht geschlossen werden!" << endl;
-        cout << endl;
+        #if QT_MESSAGEBOX
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("config.ini");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("config.ini konnte nicht geschlossen werden!");
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.exec();
+        #endif
+
         return 1;
     }
 
@@ -99,35 +112,37 @@ int ConfigFile::getValue(string strParameter, string &strValue)
     string strBuffer = "";
     size_t sztStartPos = 0;
     size_t sztEndPos = 0;
-
-    strValue = "";
+    strValue = "kein Eintrag";
 
     if ( openFile() != 0) return 1;                                             // config.ini öffnen
 
-    while(getline(this->fstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
+    while(getline(this->fstrmConfigFile, strBuffer, '\n'))                      // Lies komplette Zeile ein
     {
       if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
       {
          if(strBuffer.find(strParameter) != string::npos)                       /** Parameter wurde gefunden **/
          {
-            sztEndPos = strBuffer.find_last_of('"');                            // Positon des letzten '"' finden
-            strBuffer.erase(sztEndPos);                                         // alles ab letzte '"' löschen
+             sztStartPos = strBuffer.find_first_of('"');                        // Position des ersten '"' finden
+             sztEndPos = strBuffer.find_last_of('"');                           // Positon des letzten '"' finden
 
-            sztStartPos = strBuffer.find_first_of('"');                         // Position des ersten '"' finden
-            strBuffer.erase(0, (sztStartPos+1));                                // lösche alles bis zum ersten '"' (falls diese erwünscht sind, bis eine Position davor)
-
-            strValue = strBuffer;
-
+             strValue = strBuffer.substr(sztStartPos+1, sztEndPos-(sztStartPos+1));
          }      // Suchwort gefunden
       }         // kein # gefunden
     }           // alle Zeilen einlesen
 
-    if (closeFile() != 0) return 2;                                             // config.ini schließen
+    if (closeFile() != 0) return 2;                                             // config.ini schließen    
 
-    if(strValue == "")                                                          /** Falls Parameter nicht in der config.ini enthalten **/
+    if(strValue == "kein Eintrag")                                              /** Falls Parameter nicht in der config.ini enthalten **/
     {
-        cout << endl <<endl << "$ Eintrag \"" << strParameter << "\" nicht in der config.ini vorhanden!" << endl << endl ;
-        this->iMissingEntry++;
+        #if QT_MESSAGEBOX
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("config.ini");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText("Wert in der config.ini nicht gefunden!");
+        msgBox.setInformativeText("Wert: " + QString::fromStdString(strParameter));
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.exec();
+        #endif
         return 3;
     }
 
@@ -136,95 +151,51 @@ int ConfigFile::getValue(string strParameter, string &strValue)
 
 int ConfigFile::setValue(string strParameter, string strValue)
 {
-    string strBuffer;
-    size_t sztStartPos;
-    openFile();
-
-        //fstream original_file (file_path.c_str(), ios::in | ios::binary);
-        fstream buffer_file;
-        buffer_file.open(PATH_TO_CACHE, ios::out);
-
-        while(getline(this->fstrmConfigFile, strBuffer, '\n'))                     // Lies komplette Zeile ein
-        {
-          if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
-          {
-             if(strBuffer.find(strParameter) != string::npos)                       /** Parameter wurde gefunden **/
-             {
-                sztStartPos = strBuffer.find_first_of('"');                         // Position des ersten '"' finden
-                strBuffer.erase(sztStartPos+1);                                // l�sche alles bis zum ersten '"' (falls diese erw�nscht sind, bis eine Position davor)
-
-                strBuffer = strBuffer + strValue + "\"";
-             }      // Suchwort gefunden
-          }         // kein # gefunden
+    fstream fstrmCacheFile;                                                     // Pointer auf cache.txt
+    string strBuffer;                                                           // Buffer Variable
+    size_t sztStartPos;                                                         // Position im String
 
 
-            buffer_file << strBuffer << endl;
-        }           // alle Zeilen einlesen
+    if(openFile() != 0) return 1;                                               // Öffne config.ini
+    fstrmCacheFile.open(PATH_TO_CACHE, ios::out);                               // Öffne cache.txt
 
-        closeFile();
-        buffer_file.close();
-
-        FileOperations::copyFile(PATH_TO_CACHE, PATH_TO_CONFIG, true);
-
-        // Dateien kopieren
-
-
-    return 0;
-
-
-
-}
-
-/** \brief  �berpr�fen der config.ini
- *
- * \param   none
- *
- * \return  0   kein Fehler vorhanden
- *          1   Es sind fehlende Eintr�ge in der config.ini vorhanden
- *
- */
-int ConfigFile::testConfig(void)
-{
-
-
-    vector <string> strParameter;
-
-    strParameter.push_back("path_movies");
-    strParameter.push_back("path_destination");
-    strParameter.push_back("cover_row");
-    strParameter.push_back("cover_column");
-    strParameter.push_back("name_cover");
-    strParameter.push_back("codecs");
-
-    string strBuffer = "";
-    unsigned int i;
-
-    for( i=0; i<strParameter.size(); i++)
+    while(getline(this->fstrmConfigFile, strBuffer, '\n'))                      // Lies komplette Zeile ein
     {
-        if (getValue(strParameter[i], strBuffer) == 0)
-        {
-            cout << strParameter[i] << " -> " << strBuffer << endl;
-        }
+      if(strBuffer.find('#') == string::npos)                                   /** Zeile nur beachten, wenn kein '#' in ihr steht **/
+      {
+         if(strBuffer.find(strParameter) != string::npos)                       /** Parameter wurde gefunden **/
+         {
+            sztStartPos = strBuffer.find_first_of('"');                         // Position des ersten '"' finden
+            strBuffer.erase(sztStartPos);                                       // Lösche alles ab dem ersten '"'
 
+            strBuffer = strBuffer + "\"" + strValue + "\"";                     // Überschreibe mit neuem Wert
+         }
+      }
+        fstrmCacheFile << strBuffer << endl;                                    // Schreibe geänderte Zeile in cache.txt
     }
 
-    cout << endl << "�berpr�fung abgeschlossen!" << endl;
-    cout << "Fehlende Eintr�ge: " << iMissingEntry << endl;
-    cout << "------------------------------------------------------------------------" << endl << endl;
+    if(closeFile() != 0) return 2;                                              // Schließe config.ini
+    fstrmCacheFile.close();                                                     // Schließe cache.txt
 
-    if(iMissingEntry != 0) return 1;
+    FileOperations::copyFile(PATH_TO_CACHE, PATH_TO_CONFIG, true);              // Überschreibe config.ini mit cache.txt
+
+    getValue(strParameter, strBuffer);                                          // Überprüfe neuen Wert
+
+    if(strBuffer != strValue)
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("config.ini");
+        msgBox.setText("Wert konnte nicht in der config.ini gespeichert werden");
+        msgBox.setInformativeText("Parameter: " + QString::fromStdString(strParameter) + "\n" +
+                                  "alter Wert: " + QString::fromStdString(strBuffer) + "\n" +
+                                  "fehlgeschlagener Wert: " + QString::fromStdString(strValue) + "\n");
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.exec();
+    }
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 
 

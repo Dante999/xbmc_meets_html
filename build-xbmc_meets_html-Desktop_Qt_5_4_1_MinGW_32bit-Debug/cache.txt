@@ -1,0 +1,49 @@
+# XBMC to HTML converter
+# config file
+# created by Dante999
+
+
+
+########## Allgemeine Einstellungen ##########
+
+# Pfad zu den Filmen (z.B. "C:\movies")
+path_movies = "C:\Users\Dante999\Downloads\Filmbeispiele"
+
+#Erstelle HTML Files in den Filmordnern
+do_movieHTML = "1"
+
+#Erstelle HTML Files als Index
+do_indexHTML = "1"
+
+
+
+########## Einstellungen html Gesammt export ##########
+
+# Zielpfad der Übersicht
+path_index = "E:\Sandbox\html_export"
+
+# Filmcover pro Zeile
+cover_line = "3"
+ 
+# Filmcover pro Spalte
+cover_column = "15"
+
+
+########## Einstellungen nfo Datei ##########
+
+# Name des Filmcovers
+# 0 = folder.jpg
+# 1 = [Name der Filmdatei]-poster.jpg (default)
+name_cover = "0"
+
+# Name der Nfo Datei
+# 0 = movie.nfo
+# 1 = [Name der Filmdatei].nfo
+name_nfo = "0"
+
+# unterstütze Dateiendungen von Filmen (bei bedarf einfach erweitern)
+codecs=".avi .mp4 .mov .mkv .m2v .vob .mpg .mpeg .dir .ogv .dcr .fla .swf .wmv VIDEO_TS"
+
+# Namenskonvention bei Mehrteilern (Mehrere Videodatein in einem Ordner)
+# zum Beispiel 'Avatar_CD1' und 'Avatar_CD2'
+multiple_files="_CD;_cd; CD; cd"

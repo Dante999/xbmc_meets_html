@@ -1,4 +1,4 @@
-#include "dialog_config.h"
+﻿#include "dialog_config.h"
 #include "ui_dialog_config.h"
 #include "configfile.h"
 

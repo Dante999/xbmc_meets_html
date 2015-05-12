@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------------
+﻿/*-----------------------------------------------------------------------------
  * Programm :
  * Thema    :
  * Autor    : Escher Matthias
@@ -26,7 +26,7 @@ using namespace std;
 
 MovieFolder::MovieFolder( string strMovieFolderPath)
 {
-    this->strMovieFolderPath = strMovieFolderPath;    
+    this->strMovieFolderPath = strMovieFolderPath;        
     SearchMovieFile();
     SearchMovieCover();
     SearchNfoFile();
@@ -97,7 +97,7 @@ int MovieFolder::SearchMovieFile()
     vector <string> vecstrCodecs;
     vector <string> vecstrFoundMovieFiles;
     unsigned int i = 0;
-    unsigned int j;
+    unsigned int j = 0;
 
     oConfigFile.getValue("codecs", strConfigValue);                                                             // Zwischenspeichern aller Codecs in einen String
     StringTools::strToVec(strConfigValue, vecstrCodecs, " ");                                                    // Umwandeln der Codecs in einen Vektor
@@ -107,7 +107,7 @@ int MovieFolder::SearchMovieFile()
     {
         if( vecstrCodecs[i].find(".") != string::npos)                                                      /** gesuchtes Codec ist eine Dateiendung **/
         {
-            FileOperations::findFile(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer);
+            FileOperations::findFile(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer);            
         }
 
         else                                                                                                /** gesuchtes Codec ist ein Ordner (z.B. DVD-> VIDEO_TS **/
@@ -115,7 +115,7 @@ int MovieFolder::SearchMovieFile()
             FileOperations::findFolder(this->strMovieFolderPath, vecstrCodecs[i], false, vecstrBuffer);
         }
 
-        i++;
+        i++;        
 
         for(j=0; j<vecstrBuffer.size(); j++)                                                                /** Speichere gefundenes Codec in einen Vektor **/
         {
@@ -125,7 +125,7 @@ int MovieFolder::SearchMovieFile()
     }
 
     if(vecstrFoundMovieFiles.size() == 0)                                                                   /** Keine Videodateien gefunden **/
-    {
+    {        
         return 1;
     }
 
