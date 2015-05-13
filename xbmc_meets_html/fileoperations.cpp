@@ -24,9 +24,6 @@
 
 #define QT_MESSAGEBOX 1
 
-using namespace std;
-
-
 FileOperations::FileOperations()
 {
     //ctor
@@ -37,7 +34,13 @@ FileOperations::~FileOperations()
     //dtor
 }
 
-
+/** \brief  Wandle von wstring in string um
+ *
+ * \param   &text   wstring der umgewandelt werden soll
+ *
+ * \return   Text als string
+ *
+ */
 inline std::string narrow(std::wstring const& text)
 {
     std::locale const loc("");
@@ -54,30 +57,32 @@ inline std::string narrow(std::wstring const& text)
 
 /** \brief  Listet alle Ordner im Verzeichnis auf
  *
- * \param   strFolderPath               Verzeichnispfad
- *          &vecstrContainedFodlers     Liste der enthaltenen Ordner
+ * \param   folderPath           Verzeichnispfad
+ *          containedFodlers     Liste der enthaltenen Ordner
  *
  * \return   0   kein Fehler vorhanden
- *          -1   Verzeichnis ungÃ¼ltig
+ *          -1   Verzeichnis ungültig
  *
  */
-int FileOperations::listFolders( string strFolderPath, vector <string> &vecstrContainedFolders)
+int FileOperations::listFolders( std::string folderPath, std::vector <std::string> &containedFolders)
 {
     WIN32_FIND_DATA FData;
-    BOOL MoreFiles = FALSE;    
+    BOOL MoreFiles = FALSE;
+    unsigned int i;
+    std::string folderName;
+    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*.*");                          // string -> lpcwstr
+    containedFolders.clear();
 
-    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(strFolderPath + "\\*.*");
+    HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);                                             // Öffne handler
 
-    HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);
-
-    if (hSearch == INVALID_HANDLE_VALUE)                                        /** UngÃ¼ltiger Pfad angegeben **/
+    if (hSearch == INVALID_HANDLE_VALUE)                                                            /** Ungültiger Pfad angegeben **/
     {
-        #if QT_MESSAGEBOX
+        #if QT_MESSAGEBOX                                                                           // Gib eine Messagebox aus
         QMessageBox msgBox;
         msgBox.setWindowTitle("listFolders()");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Ungültiger Ordnerpfad angegeben!");
-        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strFolderPath));
+        msgBox.setInformativeText("Pfad: " + QString::fromStdString(folderPath));
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
         #endif
@@ -85,29 +90,22 @@ int FileOperations::listFolders( string strFolderPath, vector <string> &vecstrCo
         return -1;
     }
 
-    /** Ordnernamen bestimmen **/
-    do                                                                          /** Durchlaufe bis alle Dateien/Ordner geprÃ¼ft wurden **/
+    do
     {
-        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                 /** Ordner gefunden **/
+        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                                     /** Ordner gefunden **/
         {
-                vecstrContainedFolders.push_back(narrow(FData.cFileName));              // HÃ¤nge Ordnername an die Liste an
+            folderName = narrow(FData.cFileName);                                                   // Speichere gefundenen Ordnernamen zwischen
+
+            if(folderName != "." && folderName != "..")                                             // Ordnernamen "." und ".." ignorieren
+            {
+                containedFolders.push_back(narrow(FData.cFileName));                                // Hänge Ordnername an die Liste an
+            }
         }
 
-        MoreFiles = FindNextFile(hSearch,&FData);                               // Gehe zur nÃ¤chsten Datei/Ordner
+        MoreFiles = FindNextFile(hSearch,&FData);                                                   // Gehe zur nächsten Datei/Ordner
     } while (MoreFiles);
 
-    FindClose(hSearch);
-
-    unsigned int i;
-
-    for( i=0; i<vecstrContainedFolders.size(); i++)                             /** Entferne alle unnÃ¶tigen gefundenen Ordner **/
-    {
-        if( (vecstrContainedFolders.at(i) == ".") || (vecstrContainedFolders.at(i) == "..") )
-        {
-            vecstrContainedFolders.erase(vecstrContainedFolders.begin()+i);
-            i--;
-        }
-    }
+    FindClose(hSearch);                                                                             // Schließe handler
 
     return 0;
 }
@@ -122,30 +120,28 @@ int FileOperations::listFolders( string strFolderPath, vector <string> &vecstrCo
  *          vecstrFoundFiles    Liste der Gefundenen Dateien die den Suchparametern entsprechen
  *
  * \return   0   kein Fehler vorhanden
- *          -1   Verzeichnis ungÃ¼ltig
+ *          -1   Verzeichnis ungültig
  *
  */
-int FileOperations::findFile( const string strFolderPath, const string strSearchParam, bool bWholeWord, vector <string> &vecstrFoundFiles)
+int FileOperations::findFile( const std::string folderPath, const std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFiles)
 {
-    string strFilename;
+    std::string filenameBuffer;
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
-
-    vecstrFoundFiles.clear();
-
-    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(strFolderPath + "\\*");
+    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*");
+    foundFiles.clear();
 
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);
 
-    if (hSearch == INVALID_HANDLE_VALUE)                                        /** Ungültiger Pfad angegeben **/
+    if (hSearch == INVALID_HANDLE_VALUE)                                                            /** Ungültiger Pfad angegeben **/
     {
         #if QT_MESSAGEBOX
         QMessageBox msgBox;
         msgBox.setWindowTitle("findFile()");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Ungültiger Ordnerpfad angegeben!");
-        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strFolderPath)+ "\n" +
-                                  "Suchparameter: " + QString::fromStdString(strSearchParam));
+        msgBox.setInformativeText("Pfad: " + QString::fromStdString(folderPath)+ "\n" +
+                                  "Suchparameter: " + QString::fromStdString(searchParam));
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
         #endif
@@ -156,25 +152,25 @@ int FileOperations::findFile( const string strFolderPath, const string strSearch
     do
     {
 
-        if (FData.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)                 /** Datei gefunden **/
+        if (FData.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)                                     /** Datei gefunden **/
         {
-            strFilename = narrow(FData.cFileName);                                      // Schreibe Ordnernamen in String
+            filenameBuffer = narrow(FData.cFileName);                                               // Schreibe Ordnernamen in String
 
-            if( bWholeWord == true && strFilename.compare(strSearchParam) == 0)
+            if( bWholeWord == true && filenameBuffer.compare(searchParam) == 0)                     /** Es wird nach kompletten Dateinamen gesucht **/
             {
-                vecstrFoundFiles.push_back(strFilename);
+                foundFiles.push_back(filenameBuffer);                                               // Hänge Dateinamen an die Liste an
             }
-            else if ( bWholeWord == false && strFilename.find(strSearchParam) != string::npos)
+            else if ( bWholeWord == false && filenameBuffer.find(searchParam) != std::string::npos) /** Es wird nach einem Tei im Dateinamen gesucht **/
             {
-                vecstrFoundFiles.push_back(strFilename);                
+                foundFiles.push_back(filenameBuffer);                                               // Hänge Dateinamen an die Liste an
             }
         }
 
-        MoreFiles = FindNextFile(hSearch,&FData);                               // Suche nÃ¤chste Datei
+        MoreFiles = FindNextFile(hSearch,&FData);                                                   // Suche nächste Datei
 
     } while (MoreFiles);
 
-    FindClose(hSearch);
+    FindClose(hSearch);                                                                             // Schließe handler
 
     return 0;
 }
@@ -189,30 +185,30 @@ int FileOperations::findFile( const string strFolderPath, const string strSearch
  *          vecstrFoundFiles    Liste der Gefundenen Dateien die den Suchparametern entsprechen
  *
  * \return   0   kein Fehler vorhanden
- *          -1   Verzeichnis ungÃ¼ltig
+ *          -1   Verzeichnis ungültig
  *
  */
-int FileOperations::findFolder( const string strPath, const string strSearchParam, bool bWholeWord, vector <string> &vecstrFoundFolders)
+int FileOperations::findFolder( const std::string folderPath, const std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFolders)
 {    
-    string strBuffer;
+    std::string strBuffer;
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
 
-    vecstrFoundFolders.clear();
+    foundFolders.clear();
 
-    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(strPath + "\\*.*");
+    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*.*");
 
-    HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);                                     // Suchpfad angeben
+    HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);                                             // Suchpfad angeben
 
-    if (hSearch == INVALID_HANDLE_VALUE)                                                    /** UngÃ¼ltiger Pfad angegeben **/
+    if (hSearch == INVALID_HANDLE_VALUE)                                                            /** Ungültiger Pfad angegeben **/
     {
         #if QT_MESSAGEBOX
         QMessageBox msgBox;
         msgBox.setWindowTitle("findFolder");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Ungültiger Ordnerpfad angegeben!");
-        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strPath) + "\n" +
-                                  "Suchparameter: " + QString::fromStdString(strSearchParam));
+        msgBox.setInformativeText("Pfad: " + QString::fromStdString(folderPath) + "\n" +
+                                  "Suchparameter: " + QString::fromStdString(searchParam));
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
         #endif
@@ -223,21 +219,21 @@ int FileOperations::findFolder( const string strPath, const string strSearchPara
     do
     {
 
-        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                             /** Ordner gefunden **/
+        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                                     /** Ordner gefunden **/
         {
             strBuffer = narrow(FData.cFileName);                                                    // Schreibe Ordnernamen in String
 
-            if( bWholeWord == true && strBuffer.compare(strSearchParam) == 0)
+            if( bWholeWord == true && strBuffer.compare(searchParam) == 0)
             {
-                vecstrFoundFolders.push_back(strBuffer);
+                foundFolders.push_back(strBuffer);
             }
-            else if ( bWholeWord == false && strBuffer.find(strSearchParam) != string::npos)
+            else if ( bWholeWord == false && strBuffer.find(searchParam) != std::string::npos)
             {
-                vecstrFoundFolders.push_back(strBuffer);
+                foundFolders.push_back(strBuffer);
             }
         }
 
-        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nÃ¤chste Datei
+        MoreFiles = FindNextFile(hSearch,&FData);                                                   // Suche nächste Datei
 
     } while (MoreFiles);
 
@@ -249,13 +245,13 @@ int FileOperations::findFolder( const string strPath, const string strSearchPara
 
 /** \brief  Überprüft, ob eine Datei existiert
  *
- * \param   filename    Name der Datei die Ã¼berprÃ¼ft werden soll
+ * \param   filename    Name der Datei die überprüft werden soll
  *
  * \return  true        Datei existiert
  *          false       Datei existiert nicht
  *
  */
-bool FileOperations::fileExists(const string &filename)
+bool FileOperations::fileExists(const std::string &filename)
 {
     struct stat buf;
 
@@ -267,16 +263,25 @@ bool FileOperations::fileExists(const string &filename)
     return false;
 }
 
-
-int FileOperations::copyFile(const string strSourceFilepath, const string strDestinationFilepath, bool overwrite )
+/** \brief  Kopiert eine Datei
+ *
+ * \param   pathExistingFile    Quellpfad zur Datei
+ * \param   pathNewFile         Zielpfad  zur Datei (mit evtl. neuem Namen)
+ * \param   overwrite           Vorhandene Dateien überschreiben (true = ja; false = nein)
+ *
+ * \return   0                  bei beenden der Funktion
+ *          -1                  Pfad ungültig
+ *
+ */
+int FileOperations::copyFile(const std::string pathExistingFile, const std::string PathNewFile, bool overwrite )
 {
-    if(fileExists(strSourceFilepath) == false)
+    if(fileExists(pathExistingFile) == false)
     {
         return -1;
     }
 
-    LPCWSTR lpcwstrSource =  StringTools::strToLpcwstr(strSourceFilepath);
-    LPCWSTR lpcwstrDestination = StringTools::strToLpcwstr(strDestinationFilepath);
+    LPCWSTR lpcwstrSource =  StringTools::strToLpcwstr(pathExistingFile);
+    LPCWSTR lpcwstrDestination = StringTools::strToLpcwstr(PathNewFile);
 
     if(CopyFile(lpcwstrSource, lpcwstrDestination, !overwrite) == 0)
     {
@@ -286,8 +291,8 @@ int FileOperations::copyFile(const string strSourceFilepath, const string strDes
         msgBox.setWindowTitle("copyFile()");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Kopieren fehlgeschlagen!");
-        msgBox.setInformativeText("Quellpfad:  " + QString::fromStdString(strSourceFilepath)      + "\n" +
-                                  "Zielpfad:   " + QString::fromStdString(strDestinationFilepath) + "\n" +
+        msgBox.setInformativeText("Quellpfad:  " + QString::fromStdString(pathExistingFile)      + "\n" +
+                                  "Zielpfad:   " + QString::fromStdString(PathNewFile) + "\n" +
                                   ErrorCode);
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
@@ -301,69 +306,64 @@ int FileOperations::copyFile(const string strSourceFilepath, const string strDes
  *
  * \param   source          Quellpfad
  * \param   destination     Zielpfad
- * \param   overwrite       Vorhandene Dateien Ã¼berschreiben (true = ja; false = nein)
+ * \param   overwrite       Vorhandene Dateien überschreiben (true = ja; false = nein)
  *
  * \return  0               bei beenden der Funktion
- *          -1              Pfad ungÃ¼ltig
+ *          -1              Pfad ungültig
  *
  */
-int FileOperations::copyFiles(const string source, const string destination, bool overwrite)
+int FileOperations::copyFiles(const std::string sourcePath, const std::string destinationPath, bool overwrite)
 {
-
-    string current_source_folder;                                                           // aktueller Pfad zum Quellordner
-    string current_destination_folder;                                                      // aktueller Pfad zum Zielordner
-    string folder_name;                                                                     // Name des gefundenen Ordners
-    string file_name;                                                                       // Name der gefundenen Datei
-    string buffer;                                                                          // Pufferspeicher
+    std::string newSourcePath;                                                                      // aktueller Pfad zum Quellordner
+    std::string newDestinationPath;                                                                 // aktueller Pfad zum Zielordner
+    std::string folderName;                                                                         // Name des gefundenen Ordners
+    std::string fileName;                                                                           // Name der gefundenen Datei
+    std::string strBuffer;                                                                          // Pufferspeicher
 
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
 
-    current_destination_folder = destination;                                               // Pfad um Suche erweitern
+    LPCWSTR lpcwstrSourcePath =  StringTools::strToLpcwstr(sourcePath + "\\*.*");
 
+    HANDLE hSearch = FindFirstFile(lpcwstrSourcePath,&FData);                                       // Suchpfad angeben
 
-    LPCWSTR lpcwstr_source =  StringTools::strToLpcwstr(source + "\\*.*");
-
-    HANDLE hSearch = FindFirstFile(lpcwstr_source,&FData);                                   // Suchpfad angeben
-
-    if (hSearch == INVALID_HANDLE_VALUE) return -1;                                         // Falls ungueltige Angabe, Funktion beenden
+    if (hSearch == INVALID_HANDLE_VALUE) return -1;                                                 // Falls ungueltige Angabe, Funktion beenden
 
     do
     {
-
-        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                             // Ordner gefunden
+        if (FData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)                                     // Ordner gefunden
         {
-            folder_name = narrow(FData.cFileName);                                                  // Schreibe Ordnernamen in String
+            folderName = narrow(FData.cFileName);                                                   // Schreibe Ordnernamen in String
 
-            if( (folder_name != ".") && (folder_name != "..") )                             // Ordnernamen "." und ".." aussortieren
+            if( (folderName != ".") && (folderName != "..") )                                       // Ordnernamen "." und ".." aussortieren
             {
-                current_destination_folder  = destination + "\\" + folder_name;             // Zielpfad aktualisieren
-                current_source_folder       = source + "\\" + folder_name;                  // Quellpfad aktualisieren
+                newDestinationPath  = destinationPath   + "\\" + folderName;                        // Zielpfad aktualisieren
+                newSourcePath       = sourcePath        + "\\" + folderName;                        // Quellpfad aktualisieren
 
-                LPCWSTR lpcwstr_dest =StringTools::strToLpcwstr(current_destination_folder);
-                CreateDirectory(lpcwstr_dest, NULL);                                         // Erstelle neuen Ordner an Ziel
+                LPCWSTR lpcwstrNewDestinationPath = StringTools::strToLpcwstr(newDestinationPath);
+                CreateDirectory(lpcwstrNewDestinationPath, NULL);                                   // Erstelle neuen Ordner an Ziel
 
-                copyFiles(current_source_folder, current_destination_folder, overwrite);         // Rufe Funktion rekursiv auf
+                copyFiles(newSourcePath, newDestinationPath, overwrite);                            // Rufe Funktion rekursiv auf
             }
         }
 
-        else                                                                                // Datei gefunden
+        else                                                                                        // Datei gefunden
         {
-            file_name = narrow(FData.cFileName);
+            fileName = narrow(FData.cFileName);
 
-            if( file_name != "Thumbs.db")                                                   // Thumbs.db aussortieren
+            if( fileName != "Thumbs.db")                                                            // Thumbs.db aussortieren
             {
-                buffer = source + "\\" + file_name;
-                LPCWSTR lpcwstr_file_source = (LPCWSTR) buffer.c_str() ;              // Quelldatei in LPCSTR umwandeln
+                strBuffer = sourcePath + "\\" + fileName;
+                LPCWSTR lpcwstrFileSource = StringTools::strToLpcwstr(strBuffer);
 
-                buffer = destination + "\\" + file_name;
-                LPCWSTR lpcwstr_file_destination = (LPCWSTR) buffer.c_str();         // Zieldatei in LPCSTR umwandeln
+                strBuffer = destinationPath + "\\" + fileName;
+                LPCWSTR lpcwstrFileDestination = StringTools::strToLpcwstr(strBuffer);
 
-                CopyFile( lpcwstr_file_source, lpcwstr_file_destination, !overwrite);              // Datei kopieren
+                CopyFile( lpcwstrFileSource, lpcwstrFileDestination, !overwrite);                   // Datei kopieren
             }
         }
 
-        MoreFiles = FindNextFile(hSearch,&FData);                                           // Suche nächste Datei
+        MoreFiles = FindNextFile(hSearch,&FData);                                                   // Suche nächste Datei
 
     } while (MoreFiles);
 
