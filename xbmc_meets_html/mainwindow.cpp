@@ -125,6 +125,7 @@ void MainWindow::on_actionEinstellungen_triggered()
     if(test == 1)
     {
         ui->textBrowser_Commandline->append(">> Einstellungen gespeichert!");
+        fillTreeWidget();
     }
     else
     {

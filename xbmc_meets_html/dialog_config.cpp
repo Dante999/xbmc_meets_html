@@ -2,6 +2,7 @@
 #include "ui_dialog_config.h"
 #include "configfile.h"
 #include "mainwindow.h"
+#include "stringtools.h"
 
 #include <string>
 #include <iostream>
@@ -23,36 +24,26 @@ void Dialog_Config::readConfig()
     ConfigFile oConfigFile;
 
     oConfigFile.getValue(CFG_NAME_COVER, strBuffer);
-
-    if(strBuffer == "0")
-    {
-        ui->radioButton_cover_0->setChecked(true);
-    }
-
-    else if(strBuffer == "1")
-    {
-        ui->radioButton_cover_1->setChecked(true);
-    }
+    if(strBuffer == "0")        ui->radioButton_cover_0->setChecked(true);
+    else if(strBuffer == "1")   ui->radioButton_cover_1->setChecked(true);
 
     oConfigFile.getValue(CFG_NAME_NFO, strBuffer);
+    if(strBuffer == "0")        ui->radioButton_nfo_0->setChecked(true);
+    else if(strBuffer == "1")   ui->radioButton_nfo_1->setChecked(true);
 
-    if(strBuffer == "0")
-    {
-        ui->radioButton_nfo_0->setChecked(true);
-    }
+    oConfigFile.getValue(CFG_COVER_LINE, strBuffer);
+    ui->spinBox_cover_line->setValue(StringTools::strToint(strBuffer));
 
-    else if(strBuffer == "1")
-    {
-        ui->radioButton_nfo_1->setChecked(true);
-    }
-
-    //TODO Einlesen der Cover pro Zeile
-    //TODO Einlesen der Cover pro Spalte
+    oConfigFile.getValue(CFG_COVER_COLUMN, strBuffer);
+    ui->spinBox_cover_column->setValue(StringTools::strToint(strBuffer));
 }
 
 void Dialog_Config::on_buttonBox_accepted()
 {
     ConfigFile oConfigFile;
+    int iBuffer;
+    std::string strBuffer;
+    QString qstrBuffer;
 
     if(ui->radioButton_cover_0->isChecked())
     {
@@ -80,7 +71,11 @@ void Dialog_Config::on_buttonBox_accepted()
         std::cout << "unerwarteter Zustand Configuration->NAME_NFO!" << std::endl;
     }
 
-    //TODO Einstellungen cover pro Zeile in config schreiben
-    //TODO Einstellungen cover pro Spalte in config schreiben
+    qstrBuffer = ui->spinBox_cover_line->text();
+    strBuffer = qstrBuffer.toStdString();
+    oConfigFile.setValue(CFG_COVER_LINE, strBuffer);
 
+    qstrBuffer = ui->spinBox_cover_column->text();
+    strBuffer = qstrBuffer.toStdString();
+    oConfigFile.setValue(CFG_COVER_COLUMN, strBuffer);
 }

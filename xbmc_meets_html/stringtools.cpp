@@ -12,6 +12,7 @@
  #include <string>
  #include <vector>
  #include <iostream>
+ #include <sstream>
 
  #include <windows.h>
 
@@ -231,6 +232,18 @@ LPCWSTR StringTools::strToLpcwstr(string strTmp)
     wstring wstrTmp(strTmp.begin(), strTmp.end());
 
     return wstrTmp.c_str();
+}
+
+int StringTools::strToint(string strToConvert)
+{
+   return atoi(strToConvert.c_str());
+}
+
+string StringTools::intToStr(int iToConvert)
+{
+    ostringstream temp;
+    temp << iToConvert;
+    return temp.str();
 }
 
 

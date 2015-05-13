@@ -144,7 +144,8 @@ int FileOperations::findFile( const string strFolderPath, const string strSearch
         msgBox.setWindowTitle("findFile()");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Ungültiger Ordnerpfad angegeben!");
-        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strFolderPath));
+        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strFolderPath)+ "\n" +
+                                  "Suchparameter: " + QString::fromStdString(strSearchParam));
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
         #endif
@@ -210,7 +211,8 @@ int FileOperations::findFolder( const string strPath, const string strSearchPara
         msgBox.setWindowTitle("findFolder");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Ungültiger Ordnerpfad angegeben!");
-        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strPath));
+        msgBox.setInformativeText("Pfad: " + QString::fromStdString(strPath) + "\n" +
+                                  "Suchparameter: " + QString::fromStdString(strSearchParam));
         msgBox.addButton(QMessageBox::Ok);
         msgBox.exec();
         #endif
