@@ -30,6 +30,8 @@ private slots:
     void on_lineEdit_moviepath_returnPressed();
     void on_toolButton_moviepath_clicked();
 
+    void on_toolButton_indexpath_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

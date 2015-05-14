@@ -95,7 +95,6 @@ void MainWindow::on_checkBox_HTMLIndex_clicked()
     ui->textBrowser_Commandline->append(">> Einstellung gespeichert!");
 }
 
-
 void MainWindow::on_pushButton_Start_clicked()
 {
     ui->textBrowser_Commandline->append(">> Vorgang gestartet...");
@@ -164,16 +163,6 @@ void MainWindow::on_toolButton_moviepath_clicked()
         fillTreeWidget();
         ui->textBrowser_Commandline->append("Pfad zu den Filmordnern aktualisiert!");
     }
-
-    /**
-    ConfigFile oConfigFile;
-
-    QString qstrMoviePath = ui->lineEdit_moviepath->text();
-
-    oConfigFile.setValue(CFG_PATH_MOVIES, qstrMoviePath.toStdString());
-    fillTreeWidget();
-    **/
-
 }
 
 void MainWindow::fillTreeWidget()
@@ -196,4 +185,25 @@ void MainWindow::fillTreeWidget()
     }
 
     ui->textBrowser_Commandline->append(">> Ordnerliste aktualisiert");
+}
+
+void MainWindow::on_toolButton_indexpath_clicked()
+{
+    Dialog_FileBrowser *fileBrowser = new Dialog_FileBrowser;
+    fileBrowser->setConfigValue(CFG_PATH_INDEX);
+    ConfigFile oConfigFile;
+    std::string strIndexPath;
+
+    fileBrowser->setWindowTitle("Datei Explorer");
+    fileBrowser->show();
+    fileBrowser->raise();
+    fileBrowser->activateWindow();
+
+    if(fileBrowser->exec() == 1)
+    {
+        oConfigFile.getValue(CFG_PATH_INDEX, strIndexPath);
+        ui->lineEdit_indexpath->setText(QString::fromStdString(strIndexPath));
+        fillTreeWidget();
+        ui->textBrowser_Commandline->append("Pfad zur Filmindex html aktualisiert!");
+    }
 }

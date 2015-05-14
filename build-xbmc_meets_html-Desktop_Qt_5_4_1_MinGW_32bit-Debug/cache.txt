@@ -7,7 +7,7 @@
 ########## Allgemeine Einstellungen ##########
 
 # Pfad zu den Filmen (z.B. "C:\movies")
-path_movies = "C:/MinGW"
+path_movies = "C:/Users/Dante999/Downloads/FilmBeispiele"
 
 #Erstelle HTML Files in den Filmordnern
 do_movieHTML = "1"
@@ -20,7 +20,7 @@ do_indexHTML = "1"
 ########## Einstellungen html Gesammt export ##########
 
 # Zielpfad der Übersicht
-path_index = "E:\Sandbox\html_export"
+path_index = "C:/Users/Dante999/Music"
 
 # Filmcover pro Zeile
 cover_line = "5"
