@@ -8,6 +8,7 @@
 #include "stringtools.h"
 #include "moviefolder.h"
 #include "dialog_config.h"
+#include "dialog_filebrowser.h"
 
 #include <string>
 #include <vector>
@@ -144,14 +145,35 @@ void MainWindow::on_lineEdit_moviepath_returnPressed()
     fillTreeWidget();
 }
 
-void MainWindow::on_toolButton_clicked()
+void MainWindow::on_toolButton_moviepath_clicked()
 {
+    Dialog_FileBrowser *fileBrowser = new Dialog_FileBrowser;
+    fileBrowser->setConfigValue(CFG_PATH_MOVIES);
+    ConfigFile oConfigFile;
+    std::string strMoviePath;
+
+    fileBrowser->setWindowTitle("Datei Explorer");
+    fileBrowser->show();
+    fileBrowser->raise();
+    fileBrowser->activateWindow();
+
+    if(fileBrowser->exec() == 1)
+    {
+        oConfigFile.getValue(CFG_PATH_MOVIES, strMoviePath);
+        ui->lineEdit_moviepath->setText(QString::fromStdString(strMoviePath));
+        fillTreeWidget();
+        ui->textBrowser_Commandline->append("Pfad zu den Filmordnern aktualisiert!");
+    }
+
+    /**
     ConfigFile oConfigFile;
 
     QString qstrMoviePath = ui->lineEdit_moviepath->text();
 
     oConfigFile.setValue(CFG_PATH_MOVIES, qstrMoviePath.toStdString());
     fillTreeWidget();
+    **/
+
 }
 
 void MainWindow::fillTreeWidget()

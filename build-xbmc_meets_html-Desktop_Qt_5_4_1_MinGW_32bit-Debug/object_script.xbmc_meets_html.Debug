@@ -8,6 +8,8 @@ INPUT(
 ./debug\nfofile.o
 ./debug\stringtools.o
 ./debug\dialog_config.o
+./debug\dialog_filebrowser.o
 ./debug\moc_mainwindow.o
 ./debug\moc_dialog_config.o
+./debug\moc_dialog_filebrowser.o
 );

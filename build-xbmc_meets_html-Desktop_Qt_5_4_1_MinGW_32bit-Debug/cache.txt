@@ -7,7 +7,7 @@
 ########## Allgemeine Einstellungen ##########
 
 # Pfad zu den Filmen (z.B. "C:\movies")
-path_movies = "C:\Users\Dante999\Downloads\Filmbeispiele"
+path_movies = "C:/MinGW"
 
 #Erstelle HTML Files in den Filmordnern
 do_movieHTML = "1"

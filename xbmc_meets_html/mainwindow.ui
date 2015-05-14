@@ -165,7 +165,7 @@ p, li { white-space: pre-wrap; }
      <string>Pfad zu den Filmordnern</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QToolButton" name="toolButton_moviepath">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -204,7 +204,7 @@ p, li { white-space: pre-wrap; }
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton_2">
+   <widget class="QToolButton" name="toolButton_indexpath">
     <property name="geometry">
      <rect>
       <x>460</x>

@@ -8,6 +8,8 @@ INPUT(
 ./release\nfofile.o
 ./release\stringtools.o
 ./release\dialog_config.o
+./release\dialog_filebrowser.o
 ./release\moc_mainwindow.o
 ./release\moc_dialog_config.o
+./release\moc_dialog_filebrowser.o
 );

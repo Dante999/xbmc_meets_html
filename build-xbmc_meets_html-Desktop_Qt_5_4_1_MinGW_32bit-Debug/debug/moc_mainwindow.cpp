@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[16];
-    char stringdata[274];
+    char stringdata[284];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,7 +44,7 @@ QT_MOC_LITERAL(11, 125, 27), // "on_pushButton_Start_clicked"
 QT_MOC_LITERAL(12, 153, 29), // "on_checkBox_HTMLIndex_clicked"
 QT_MOC_LITERAL(13, 183, 32), // "on_actionEinstellungen_triggered"
 QT_MOC_LITERAL(14, 216, 35), // "on_lineEdit_moviepath_returnP..."
-QT_MOC_LITERAL(15, 252, 21) // "on_toolButton_clicked"
+QT_MOC_LITERAL(15, 252, 31) // "on_toolButton_moviepath_clicked"
 
     },
     "MainWindow\0initValuesFromConfig\0\0"
@@ -55,7 +55,7 @@ QT_MOC_LITERAL(15, 252, 21) // "on_toolButton_clicked"
     "on_checkBox_HTMLIndex_clicked\0"
     "on_actionEinstellungen_triggered\0"
     "on_lineEdit_moviepath_returnPressed\0"
-    "on_toolButton_clicked"
+    "on_toolButton_moviepath_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -110,7 +110,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->on_checkBox_HTMLIndex_clicked(); break;
         case 6: _t->on_actionEinstellungen_triggered(); break;
         case 7: _t->on_lineEdit_moviepath_returnPressed(); break;
-        case 8: _t->on_toolButton_clicked(); break;
+        case 8: _t->on_toolButton_moviepath_clicked(); break;
         default: ;
         }
     }

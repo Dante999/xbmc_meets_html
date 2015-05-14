@@ -68,9 +68,9 @@ int FileOperations::listFolders( std::string folderPath, std::vector <std::strin
 {
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
-    unsigned int i;
     std::string folderName;
-    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*.*");                          // string -> lpcwstr
+
+    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*.*");                                    // string -> lpcwstr
     containedFolders.clear();
 
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);                                             // Öffne handler
@@ -123,13 +123,15 @@ int FileOperations::listFolders( std::string folderPath, std::vector <std::strin
  *          -1   Verzeichnis ungültig
  *
  */
-int FileOperations::findFile( const std::string folderPath, const std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFiles)
+int FileOperations::findFile( std::string folderPath, std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFiles)
 {
     std::string filenameBuffer;
     WIN32_FIND_DATA FData;
     BOOL MoreFiles = FALSE;
-    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*");
     foundFiles.clear();
+
+    LPCWSTR lpcwstrPath = StringTools::strToLpcwstr(folderPath + "\\*.*");
+
 
     HANDLE hSearch = FindFirstFile(lpcwstrPath,&FData);
 
@@ -188,7 +190,7 @@ int FileOperations::findFile( const std::string folderPath, const std::string se
  *          -1   Verzeichnis ungültig
  *
  */
-int FileOperations::findFolder( const std::string folderPath, const std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFolders)
+int FileOperations::findFolder( std::string folderPath, std::string searchParam, bool bWholeWord, std::vector <std::string> &foundFolders)
 {    
     std::string strBuffer;
     WIN32_FIND_DATA FData;

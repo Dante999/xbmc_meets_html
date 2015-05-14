@@ -28,7 +28,7 @@ private slots:
     void on_checkBox_HTMLIndex_clicked();
     void on_actionEinstellungen_triggered();
     void on_lineEdit_moviepath_returnPressed();
-    void on_toolButton_clicked();
+    void on_toolButton_moviepath_clicked();
 
 private:
     Ui::MainWindow *ui;

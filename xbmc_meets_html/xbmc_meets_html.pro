@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     moviehtml.cpp \
     nfofile.cpp \
     stringtools.cpp \
-    dialog_config.cpp
+    dialog_config.cpp \
+    dialog_filebrowser.cpp
 
 HEADERS  += mainwindow.h \
     configfile.h \
@@ -29,7 +30,9 @@ HEADERS  += mainwindow.h \
     moviehtml.h \
     nfofile.h \
     stringtools.h \
-    dialog_config.h
+    dialog_config.h \
+    dialog_filebrowser.h
 
 FORMS    += mainwindow.ui \
-    dialog_config.ui
+    dialog_config.ui \
+    dialog_filebrowser.ui

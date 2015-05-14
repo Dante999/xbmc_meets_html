@@ -47,10 +47,10 @@ public:
     QLabel *label_3;
     QLineEdit *lineEdit_moviepath;
     QLabel *label;
-    QToolButton *toolButton;
+    QToolButton *toolButton_moviepath;
     QLabel *label_2;
     QLineEdit *lineEdit_indexpath;
-    QToolButton *toolButton_2;
+    QToolButton *toolButton_indexpath;
     QMenuBar *menuBar;
     QMenu *menuEinstellungen;
     QMenu *menuInfo;
@@ -107,9 +107,9 @@ public:
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(20, 20, 116, 16));
-        toolButton = new QToolButton(centralWidget);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-        toolButton->setGeometry(QRect(460, 20, 25, 19));
+        toolButton_moviepath = new QToolButton(centralWidget);
+        toolButton_moviepath->setObjectName(QStringLiteral("toolButton_moviepath"));
+        toolButton_moviepath->setGeometry(QRect(460, 20, 25, 19));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(20, 60, 122, 16));
@@ -117,9 +117,9 @@ public:
         lineEdit_indexpath->setObjectName(QStringLiteral("lineEdit_indexpath"));
         lineEdit_indexpath->setGeometry(QRect(150, 60, 300, 20));
         lineEdit_indexpath->setReadOnly(true);
-        toolButton_2 = new QToolButton(centralWidget);
-        toolButton_2->setObjectName(QStringLiteral("toolButton_2"));
-        toolButton_2->setGeometry(QRect(460, 60, 25, 19));
+        toolButton_indexpath = new QToolButton(centralWidget);
+        toolButton_indexpath->setObjectName(QStringLiteral("toolButton_indexpath"));
+        toolButton_indexpath->setGeometry(QRect(460, 60, 25, 19));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -164,9 +164,9 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", 0));
         label_3->setText(QApplication::translate("MainWindow", "by Dante999", 0));
         label->setText(QApplication::translate("MainWindow", "Pfad zu den Filmordnern", 0));
-        toolButton->setText(QApplication::translate("MainWindow", "...", 0));
+        toolButton_moviepath->setText(QApplication::translate("MainWindow", "...", 0));
         label_2->setText(QApplication::translate("MainWindow", "Export Pfad Film\303\274bersicht", 0));
-        toolButton_2->setText(QApplication::translate("MainWindow", "...", 0));
+        toolButton_indexpath->setText(QApplication::translate("MainWindow", "...", 0));
         menuEinstellungen->setTitle(QApplication::translate("MainWindow", "Einstellungen", 0));
         menuInfo->setTitle(QApplication::translate("MainWindow", "Info", 0));
     } // retranslateUi
